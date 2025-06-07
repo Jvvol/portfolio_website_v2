@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacob Wolfe - Portfolio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header id="header">
+        <nav class="container">
+            <div class="logo">
+    <button id="logo-btn" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;color:inherit;">
+        Jacob Wolfe
+    </button>
+</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobile-menu" aria-label="Open navigation" aria-expanded="false" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero" style="background: url('images/statlercollege.jpg') center center/cover no-repeat;">
+        <div class="hero-content">
+            <h1>Hi, I'm Jacob Wolfe</h1>
+            <p>Aspiring Software Developer</p>
+            <a href="#contact" class="cta-button">Get In Touch</a>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/jacob-wolfe-59315530a/" class="social-link" aria-label="LinkedIn" target="_blank">
+                <img src="images/linkedinlogo.jpg" alt="LinkedIn" class="social-img">
+            </a>
+            <a href="https://github.com/Jvvol" class="social-link" aria-label="GitHub" target="_blank">
+                <img src="images/githublogo.jpg" alt="GitHub" class="social-img">
+            </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Me</h2>
+            <div class="about-content fade-in">
+                <div class="about-image">
+                    <img src="images/profilepic.jpg" alt="Profile Picture" class="profile-pic">
+                </div>
+                <div class="about-text">
+                    <p>My name is Jacob Wolfe and I am an aspiring software developer. I am currently a junior at West Virginia University, and
+            I am studying Computer Science and Music Technology. I'm actively seeking internship opportunities where I can apply my skills, 
+            learn from experienced developers, and contribute to meaningful projects. I have taken classes like
+            File and Data Structures, Intro to Software Engineering, Computer System Concepts, Analysis of Algorithms,
+            Calculus 3, Discrete Mathematics, Intro to Audio Engineering, Intro to Pro Tools, 
+            and Small Group Communication. </p>
+                    <p>I have experience mainly in Java, but I have also worked with HTML, CSS, JavaScript, 
+            C++, C, and PHP. In my Intro to Software Engineering class, I worked on a full-stack weather-based social
+            media app with a group of six students including myself which utilized database management. Also, I have worked on this portfolio website.
+            I am still currently working on a project that is temporarily called the "Smart Compressor" audio plugin that utilizes the Juce
+            framework and C++ to create a super easy to use compressor with only three controls.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+    <div class="container">
+        <h2 class="section-title fade-in">Skills</h2>
+        <div class="skills-grid fade-in">
+            <div class="skill-item">
+                <div class="skill-icon">
+                    <img src="images/programminglanguage.jpg" alt="Programming Languages" class="skill-img">
+                </div>
+                <h3>Programming Languages</h3>
+                <p>Java, JavaScript, HTML, CSS, PHP, C++, and SQL</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">
+                    <img src="images/tools.jpg" alt="Tools & Technologies" class="skill-img">
+                </div>
+                <h3>Tools & Technologies</h3>
+                <p>Git, GitHub, VS Code, Microsoft Azure, MySQL, and Juce</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">
+                    <img src="images/webdev.jpg" alt="Web Development" class="skill-img">
+                </div>
+                <h3>Web Development</h3>
+                <p>Responsive Design, Full-Stack Development, and UI/UX</p>
+            </div>
+            <div class="skill-item">
+                <div class="skill-icon">
+                    <img src="images/skills.jpg" alt="Other Skills" class="skill-img">
+                </div>
+                <h3>Other Skills</h3>
+                <p>Agile Methodology, Team Collaboration, and Problem Solving</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title fade-in">Projects</h2>
+            <div class="projects-grid fade-in">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/icon.png" alt="MapChat Project" class="project-img">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">MapChat</h3>
+                        <p class="project-description">Weather-based social media web app built with PHP, JavaScript, HTML, and CSS. Integrated real-time weather data and deployed on Microsoft Azure.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/portfoliowebsite2.jpg" alt="Portfolio Website Project" class="project-img">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Portfolio Website</h3>
+                        <p class="project-description">Responsive personal portfolio built with HTML, CSS, and JavaScript. Features mobile-first design and smooth animations.</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/analogcomp.jpg" alt="Smart Compressor Project" class="project-img">
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Smart Compressor</h3>
+                        <p class="project-description">C++ application utilizing the JUCE framework to provide a simplistic pretty UI for producers. Includes only three controls.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in">Get In Touch</h2>
+            <div class="contact-content fade-in">
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>jawolfe17@yahoo.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>(304)-280-2750</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Morgantown, WV</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Jacob Wolfe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
