@@ -1,0 +1,11 @@
+# Node modules (if you ever use npm)
+node_modules/
+# OS files
+.DS_Store
+Thumbs.db
+# VS Code settings
+.vscode/
+# Logs
+*.log
+# Environment files
+.env
