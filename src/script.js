@@ -1,3 +1,14 @@
+// Security: Input sanitization function
+function sanitizeInput(input) {
+    const temp = document.createElement('div');
+    temp.textContent = input;
+    return temp.innerHTML;
+}
+
+// Security: Rate limiting for form submissions
+let lastSubmissionTime = 0;
+const SUBMISSION_COOLDOWN = 5000; // 5 seconds
+
 // Header scroll effect
 window.addEventListener('scroll', () => {
     const header = document.getElementById('header');
