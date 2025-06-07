@@ -51,24 +51,6 @@ document.querySelectorAll('.fade-in').forEach(el => {
     observer.observe(el);
 });
 
-// Contact form handling
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Get form data
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-    
-    // Simple validation
-    if (name && email && message) {
-        alert('Thank you for your message! I\'ll get back to you soon.');
-        this.reset();
-    } else {
-        alert('Please fill in all fields.');
-    }
-});
-
 // Mobile menu toggle (basic structure - you can expand this)
 document.querySelector('.mobile-menu').addEventListener('click', function() {
     // Add mobile menu functionality here
