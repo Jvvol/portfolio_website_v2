@@ -14,9 +14,23 @@ test('projects render', async ({ page }) => {
 });
 
 test('music renders', async ({ page }) => {
-    await expect(page.locator('#music-list > li')).toHaveCount(3);
+    await expect(page.locator('#music-list > li')).toHaveCount(4);
     await expect(page.locator('#band-list > li')).toHaveCount(3);
     await expect(page.locator('#music-empty')).toBeHidden();
+});
+
+test('every release shows its cover art', async ({ page }) => {
+    const covers = page.locator('#music-list .release-art img');
+    await expect(covers).toHaveCount(4);
+    for (const img of await covers.all()) {
+        expect(await img.evaluate(n => n.naturalWidth)).toBeGreaterThan(0);
+        await expect(img).toHaveAttribute('alt', /.+/);
+    }
+});
+
+test('pixel-art covers stay crisp', async ({ page }) => {
+    const godStomp = page.locator('#music-list img[src$="god-stomp.png"]');
+    await expect(godStomp).toHaveCSS('image-rendering', 'pixelated');
 });
 
 test('theme toggles and persists', async ({ page }) => {

@@ -780,6 +780,7 @@ html:not(.js) .theme-toggle { display: none; }
 /* Square cover art, with a placeholder square until the artwork file exists */
 .release-art { aspect-ratio: 1; border-bottom: 1px solid var(--color-border); }
 .release-art img { width: 100%; height: 100%; object-fit: cover; }
+.release-art img.is-pixelated { image-rendering: pixelated; }
 .art-placeholder {
     display: grid;
     place-items: center;

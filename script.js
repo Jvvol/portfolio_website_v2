@@ -142,6 +142,7 @@
         const figure = el('figure', { class: 'release-art' }, frame);
         if (t.artwork && t.artwork.src) {
             const img = new Image();
+            if (t.artwork.pixelated) img.className = 'is-pixelated';
             img.onload = () => {
                 img.alt = t.artwork.alt || `${t.title} cover art`;
                 frame.replaceWith(img);
