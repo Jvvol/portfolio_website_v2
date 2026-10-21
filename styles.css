@@ -367,6 +367,8 @@ main:focus { outline: none; }
 .icon-btn:active { background: color-mix(in srgb, var(--color-text) 11%, transparent); }
 .icon-btn .icon { width: 1.25rem; height: 1.25rem; }
 
+/* The theme button needs JS; hide it rather than show a control that does nothing. */
+html:not(.js) .theme-toggle { display: none; }
 .theme-toggle .icon-sun { display: none; }
 :root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
 :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
@@ -389,9 +391,13 @@ main:focus { outline: none; }
 .menu-toggle[aria-expanded="true"] .menu-bars span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 760px) {
-    .menu-toggle { display: inline-grid; }
+    /* No JS: show the links in a wrapping row under the name. */
+    html:not(.js) .nav { flex-wrap: wrap; height: auto; padding-block: 0.75rem; row-gap: 0; }
+    html:not(.js) .nav-links { order: 3; flex-wrap: wrap; width: 100%; margin-left: -0.75rem; }
 
-    .nav-links {
+    .js .menu-toggle { display: inline-grid; }
+
+    .js .nav-links {
         position: absolute;
         top: var(--header-h);
         left: 0; right: 0;
@@ -406,14 +412,14 @@ main:focus { outline: none; }
         transform: translateY(-0.5rem);
         transition: opacity var(--dur), transform var(--dur) var(--ease), visibility 0s var(--dur);
     }
-    .nav-links.is-open {
+    .js .nav-links.is-open {
         visibility: visible;
         opacity: 1;
         transform: none;
         transition: opacity var(--dur), transform var(--dur) var(--ease);
     }
-    .nav-links a { padding: 0.85rem 0.25rem; font-size: 1.05rem; }
-    .nav-links li + li { border-top: 1px solid var(--color-border); }
+    .js .nav-links a { padding: 0.85rem 0.25rem; font-size: 1.05rem; }
+    .js .nav-links li + li { border-top: 1px solid var(--color-border); }
 }
 
 /* Hero

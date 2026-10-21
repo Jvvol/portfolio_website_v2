@@ -91,9 +91,19 @@
 
     // Public API
     // ------------------------------------------------------------------------
+    // True when a category that already loaded a script is being switched off.
+    function revokesLoaded(next) {
+        return OPTIONAL.some(cat => get(cat) && !next[cat] &&
+            gatedScripts().some(s => s.dataset.consent === cat && s.dataset.consentActivated));
+    }
+
     function save(next) {
-        choices = normalize(next || {});
+        const normalized = normalize(next || {});
+        const reload = revokesLoaded(normalized);
+        choices = normalized;
         write(choices);
+        // A script can't be unloaded, so start the page fresh without it.
+        if (reload) { location.reload(); return; }
         applyChoices();
         if (banner) banner.hidden = true;
         document.dispatchEvent(new CustomEvent('consent:change', { detail: { ...choices } }));
@@ -115,8 +125,8 @@
 
     // Banner
     // ------------------------------------------------------------------------
-    function actionButton(action, label, quiet) {
-        return el('button', { type: 'button', class: quiet ? 'btn btn-quiet' : 'btn', 'data-consent-action': action }, label);
+    function actionButton(action, label) {
+        return el('button', { type: 'button', class: 'btn', 'data-consent-action': action }, label);
     }
 
     function listOf(words) {
@@ -135,7 +145,7 @@
             el('div', { class: 'consent-actions' },
                 actionButton('accept', 'Accept all'),
                 actionButton('reject', 'Reject all'),
-                actionButton('customize', 'Customize', true))
+                actionButton('customize', 'Customize'))
         );
         banner.addEventListener('click', e => {
             const action = e.target.closest('[data-consent-action]');
@@ -169,7 +179,7 @@
     function buildDialog() {
         const hasOptional = gatedScripts().length > 0;
         const intro = hasOptional
-            ? el('p', null, 'Choose which optional cookies this site may use. You can change this at any time from “Cookie settings” at the bottom of each page.')
+            ? el('p', null, 'Choose which optional cookies this site may use. You can change this at any time from “Cookie settings” at the bottom of each page. If you turn off something that’s already running, the page reloads without it.')
             : el('p', null, 'This site doesn’t use any optional cookies or trackers, so there’s nothing to turn on or off. Your theme choice is stored on your device only because you asked for it.');
 
         const necessary = el('li', { class: 'consent-category' },
@@ -191,7 +201,7 @@
         );
 
         dialog.addEventListener('click', e => {
-            if (e.target === dialog) { close(); return; }   // click on the backdrop
+            if (e.target === dialog && outside(e, dialog)) { close(); return; }   // click on the backdrop
             const action = e.target.closest('[data-consent-action]');
             if (!action) return;
             const name = action.dataset.consentAction;
@@ -210,6 +220,12 @@
         // Escape fires "cancel"; close our way so focus goes back to the opener.
         dialog.addEventListener('cancel', e => { e.preventDefault(); close(); });
         document.body.append(dialog);
+    }
+
+    // Clicks on the dialog's own padding also target the dialog; only the backdrop is outside its box.
+    function outside(e, node) {
+        const r = node.getBoundingClientRect();
+        return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
     }
 
     function syncSwitches() {
