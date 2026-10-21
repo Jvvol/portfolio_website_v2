@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent test fixture</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <!-- A stand-in for a real analytics tag. It must never load without consent. -->
+    <script type="text/plain" data-consent="analytics" data-src="https://analytics.example.test/a.js"></script>
+</head>
+<body>
+    <main id="main">
+        <h1>Consent test fixture</h1>
+        <p>Used only by tests/consent.spec.js.</p>
+    </main>
+    <footer class="site-footer">
+        <button type="button" class="link-btn" data-consent-open hidden>Cookie settings</button>
+    </footer>
+    <script src="../../js/consent.js" defer></script>
+</body>
+</html>
