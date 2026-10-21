@@ -686,6 +686,7 @@ html:not(.js) .theme-toggle { display: none; }
 .releases {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
     gap: var(--space-4) var(--space-3);
 }
 @media (min-width: 700px) { .releases { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -719,21 +720,12 @@ html:not(.js) .theme-toggle { display: none; }
 }
 .art-placeholder .icon { width: 2.25rem; height: 2.25rem; }
 
-.release-body { display: grid; gap: 0.3rem; justify-items: start; padding-top: var(--space-2); }
+.release-body { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 0.3rem; padding-top: var(--space-2); }
 .release-title { font-size: var(--step-1); font-weight: 600; line-height: 1.2; }
 .release-meta { color: var(--color-text-muted); font-size: var(--step--1); line-height: 1.45; }
 .release-body .roles { margin-top: 0.35rem; }
-.release-body .item-links { margin-top: var(--space-1); }
-
-.release-upcoming {
-    display: grid;
-    gap: 0.35rem;
-    justify-items: start;
-    margin-top: var(--space-1);
-    padding-top: var(--space-1);
-    border-top: 1px dashed var(--color-border);
-}
-.release-upcoming p { color: var(--color-text-muted); font-size: var(--step--1); line-height: 1.5; }
+/* Pinned to the card bottom so buttons line up across a row. */
+.release-body .item-links { margin-top: auto; padding-top: var(--space-1); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .role {

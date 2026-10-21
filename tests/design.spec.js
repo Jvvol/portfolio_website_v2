@@ -41,3 +41,19 @@ test('no raw colors outside the token blocks', () => {
     const raw = outside.match(/#[0-9a-f]{3,8}\b|rgba?\(|hsla?\(/gi) || [];
     expect(raw).toEqual([]);
 });
+
+for (const width of [375, 760, 1000, 1280]) {
+    test(`release cards match at ${width}px: same size, buttons lined up, no extra notes`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto('/index.html');
+        await expect(page.locator('#music-list .btn').first()).toBeVisible();
+        await expect(page.locator('#music-list .release-upcoming')).toHaveCount(0);
+        const cards = await page.locator('#music-list > li').evaluateAll(nodes => nodes.map(n => {
+            const btn = n.querySelector('.btn');
+            return { height: n.getBoundingClientRect().height, gap: btn && n.getBoundingClientRect().bottom - btn.getBoundingClientRect().bottom };
+        }));
+        expect(new Set(cards.map(c => Math.round(c.height))).size).toBe(1);
+        // Each button sits at the bottom of its card, so buttons in a row line up.
+        for (const c of cards) if (c.gap !== null) expect(Math.round(c.gap)).toBe(0);
+    });
+}

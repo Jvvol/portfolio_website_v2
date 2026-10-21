@@ -151,10 +151,6 @@
                 el('h4', { class: 'release-title' }, t.title),
                 el('p', { class: 'release-meta' }, t.artist, t.artist && kind && el('br'), kind),
                 roleList(t.roles, 'My role'),
-                t.upcoming && el('div', { class: 'release-upcoming' },
-                    badge(t.upcoming.status || 'Coming soon'),
-                    el('p', null, t.upcoming.text)
-                ),
                 hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
             )
         );
