@@ -91,7 +91,7 @@
     // Projects: one row each, name on the left, details on the right (text only, no screenshots)
     // ------------------------------------------------------------------------
     function linkList(items) {
-        return items.length > 0 && el('div', { class: 'item-links' }, items.map(l => externalLink(l.href, l.label, 'item-link')));
+        return items.length > 0 && el('div', { class: 'item-links' }, items.map(l => externalLink(l.href, l.label, 'btn')));
     }
 
     function projectRow(p) {

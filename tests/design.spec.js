@@ -3,11 +3,30 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 
-test('hero has one primary action pointing to projects', async ({ page }) => {
+test('every button on the page looks the same', async ({ page }) => {
     await page.goto('/index.html');
-    const primary = page.locator('.hero-actions .btn-primary');
-    await expect(primary).toHaveCount(1);
-    await expect(primary).toHaveAttribute('href', '#projects');
+    await expect(page.locator('#music-list .btn').first()).toBeVisible();
+    const looks = await page.locator('main .btn').evaluateAll(nodes => nodes.map(n => {
+        const s = getComputedStyle(n);
+        return [s.backgroundColor, s.color, s.borderColor, s.borderRadius, s.fontSize, s.fontWeight].join(' ');
+    }));
+    expect(looks.length).toBeGreaterThan(8);
+    expect(new Set(looks).size).toBe(1);
+});
+
+test('release and project links are buttons', async ({ page }) => {
+    await page.goto('/index.html');
+    await expect(page.locator('#music-list a[href*="spotify"]').first()).toHaveClass(/\bbtn\b/);
+    await expect(page.locator('#band-list a[href*="instagram"]').first()).toHaveClass(/\bbtn\b/);
+});
+
+test('section titles sit above their content, not in a side column', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/index.html');
+    const head = await page.locator('#projects .section-head').boundingBox();
+    const list = await page.locator('#projects-list').boundingBox();
+    expect(head.y + head.height).toBeLessThanOrEqual(list.y);
+    expect(await page.locator('#projects .section-head').evaluate(n => getComputedStyle(n).position)).not.toBe('sticky');
 });
 
 test('hero shows availability as a status readout', async ({ page }) => {
