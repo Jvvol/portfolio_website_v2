@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent edge-case fixture</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <!-- A library, then inline code that needs it: order must hold after consent. -->
+    <script type="text/plain" data-consent="analytics" data-src="https://analytics.example.test/lib.js" id="lib" crossorigin="anonymous" data-config="site-1"></script>
+    <script type="text/plain" data-consent="analytics">window.__order = window.__libLoaded ? 'lib-first' : 'inline-first';</script>
+    <!-- Subresource Integrity must survive activation. -->
+    <script type="text/plain" data-consent="marketing" data-src="https://analytics.example.test/m.js" integrity="sha384-test" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main id="main">
+        <h1>Consent edge-case fixture</h1>
+        <p>Used only by tests/review-fixes.spec.js.</p>
+    </main>
+    <footer class="site-footer">
+        <button type="button" class="link-btn" data-consent-open hidden>Cookie settings</button>
+    </footer>
+    <script src="../../js/consent.js" defer></script>
+</body>
+</html>

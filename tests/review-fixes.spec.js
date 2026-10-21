@@ -85,3 +85,49 @@ test.describe('without JavaScript on a phone', () => {
         });
     }
 });
+
+// Second review (/code-review): activation fidelity, focus, and when the banner should ask.
+test.describe('gated script activation', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.route('https://analytics.example.test/lib.js', async route => {
+            await new Promise(r => setTimeout(r, 300));   // slow library
+            await route.fulfill({ contentType: 'text/javascript', body: 'window.__libLoaded = true;' });
+        });
+        await page.route('https://analytics.example.test/m.js', route => route.fulfill({ contentType: 'text/javascript', body: '' }));
+        await page.goto('/tests/fixtures/consent-edge.html');
+        await page.click('#consent-banner [data-consent-action="accept"]');
+    });
+
+    test('runs gated scripts in document order', async ({ page }) => {
+        await expect.poll(() => page.evaluate(() => window.__order)).toBe('lib-first');
+    });
+
+    test('keeps the original attributes, including integrity', async ({ page }) => {
+        const lib = page.locator('script#lib');
+        await expect(lib).toHaveCount(1);
+        await expect(lib).not.toHaveAttribute('type', 'text/plain');
+        await expect(lib).toHaveAttribute('crossorigin', 'anonymous');
+        await expect(lib).toHaveAttribute('data-config', 'site-1');
+        await expect(page.locator('script[src$="m.js"]')).toHaveAttribute('integrity', 'sha384-test');
+    });
+});
+
+test('banner choice moves focus to cookie settings, not the page top', async ({ page }) => {
+    await page.goto(FIXTURE);
+    await page.locator('#consent-banner [data-consent-action="reject"]').focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('[data-consent-open]')).toBeFocused();
+});
+
+test('no banner when Global Privacy Control already decides every gated category', async ({ page }) => {
+    await page.addInitScript(() => Object.defineProperty(Navigator.prototype, 'globalPrivacyControl', { get: () => true }));
+    await page.goto(FIXTURE);
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#consent-banner')).toHaveCount(0);
+});
+
+test('no banner for a category no choice can enable', async ({ page }) => {
+    await page.goto('/tests/fixtures/consent-unknown.html');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#consent-banner')).toHaveCount(0);
+});

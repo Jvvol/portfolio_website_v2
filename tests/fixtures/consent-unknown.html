@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consent unknown-category fixture</title>
+    <!-- A typo'd category: no choice can ever enable it, so no banner should ask. -->
+    <script type="text/plain" data-consent="statistics" data-src="https://analytics.example.test/s.js"></script>
+</head>
+<body>
+    <main id="main"><h1>Consent unknown-category fixture</h1></main>
+    <footer><button type="button" class="link-btn" data-consent-open hidden>Cookie settings</button></footer>
+    <script src="../../js/consent.js" defer></script>
+</body>
+</html>

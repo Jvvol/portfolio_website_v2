@@ -3,6 +3,8 @@
 // Optional scripts never load until the visitor allows their category. Write them as:
 //   <script type="text/plain" data-consent="analytics" data-src="https://example.com/tag.js"></script>
 // (or put the code inside the tag instead of data-src). Categories: functional, analytics, marketing.
+// Other attributes (integrity, crossorigin, id, data-*) carry over, and gated scripts run in page order.
+// Each page's Content-Security-Policy must also allow the script's origin, or the browser blocks it.
 //
 // The banner only appears on pages that contain such a script and only until the visitor
 // chooses. "Cookie settings" ([data-consent-open]) opens the preferences at any time.
@@ -75,13 +77,32 @@
         return [...document.querySelectorAll('script[type="text/plain"][data-consent]')];
     }
 
+    // Categories a visitor's choice can actually turn on for this page (GPC may already have decided).
+    function askableCategories() {
+        return [...new Set(gatedScripts().map(s => s.dataset.consent))]
+            .filter(cat => CATEGORIES[cat] && !(gpc && GPC_BLOCKS.includes(cat)));
+    }
+
+    const SKIP_ATTRS = ['type', 'data-consent', 'data-src', 'data-consent-activated'];
+    // Each activation waits for the one before it, so a library always loads before code that uses it.
+    let queue = Promise.resolve();
+
     function activate(placeholder) {
         if (placeholder.dataset.consentActivated) return;
         placeholder.dataset.consentActivated = 'true';
         const script = document.createElement('script');
-        if (placeholder.dataset.src) script.src = placeholder.dataset.src;
+        for (const { name, value } of [...placeholder.attributes]) {
+            if (!SKIP_ATTRS.includes(name)) script.setAttribute(name, value);
+        }
+        placeholder.removeAttribute('id');   // the real script takes over the id
+        const src = placeholder.dataset.src;
+        if (src) script.src = src;
         else script.text = placeholder.text;
-        placeholder.after(script);
+        queue = queue.then(() => new Promise(done => {
+            if (src) script.onload = script.onerror = done;
+            placeholder.after(script);
+            if (!src) done();
+        }));
     }
 
     function applyChoices() {
@@ -93,8 +114,8 @@
     // ------------------------------------------------------------------------
     // True when a category that already loaded a script is being switched off.
     function revokesLoaded(next) {
-        return OPTIONAL.some(cat => get(cat) && !next[cat] &&
-            gatedScripts().some(s => s.dataset.consent === cat && s.dataset.consentActivated));
+        const running = new Set(gatedScripts().filter(s => s.dataset.consentActivated).map(s => s.dataset.consent));
+        return OPTIONAL.some(cat => get(cat) && !next[cat] && running.has(cat));
     }
 
     function save(next) {
@@ -135,9 +156,7 @@
     }
 
     function buildBanner() {
-        const used = [...new Set(gatedScripts().map(s => s.dataset.consent))]
-            .filter(cat => CATEGORIES[cat])
-            .map(cat => CATEGORIES[cat].title.toLowerCase());
+        const used = askableCategories().map(cat => CATEGORIES[cat].title.toLowerCase());
         banner = el('section', { id: 'consent-banner', class: 'consent-banner', 'aria-label': 'Cookie consent' },
             el('p', { class: 'consent-text' },
                 `This site would like to use optional cookies for ${listOf(used)}. You can accept, reject, or choose. `,
@@ -150,9 +169,12 @@
         banner.addEventListener('click', e => {
             const action = e.target.closest('[data-consent-action]');
             if (!action) return;
+            if (action.dataset.consentAction === 'customize') { open(action); return; }
             if (action.dataset.consentAction === 'accept') acceptAll();
-            else if (action.dataset.consentAction === 'reject') rejectAll();
-            else open(action);
+            else rejectAll();
+            // The banner just hid the focused button; keep keyboard users on the way back in.
+            const settings = document.querySelector('[data-consent-open]:not([hidden])');
+            if (settings) settings.focus();
         });
         const skip = document.querySelector('.skip-link');
         if (skip) skip.after(banner);
@@ -259,7 +281,7 @@
             button.addEventListener('click', () => open(button));
         });
         applyChoices();
-        if (!choices && gatedScripts().length > 0) buildBanner();
+        if (!choices && askableCategories().length > 0) buildBanner();
     }
 
     window.Consent = { open, get, acceptAll, rejectAll, save };

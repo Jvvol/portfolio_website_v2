@@ -84,7 +84,9 @@ test('Global Privacy Control forces analytics and marketing off', async ({ page 
     await page.addInitScript(() => Object.defineProperty(Navigator.prototype, 'globalPrivacyControl', { get: () => true }));
     const hits = await trackHits(page);
     await page.goto(FIXTURE);
-    await page.click('#consent-banner [data-consent-action="accept"]');
+    // GPC already answers for analytics, so there is nothing to ask.
+    await expect(page.locator('#consent-banner')).toHaveCount(0);
+    await page.evaluate(() => window.Consent.acceptAll());
     await page.waitForLoadState('networkidle');
     expect(hits.count).toBe(0);
     await page.click('[data-consent-open]');
