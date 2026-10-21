@@ -3,7 +3,6 @@
 
     const config = window.SITE_CONFIG || { links: {} };
     const links = config.links || {};
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // Small DOM helper: el('p', { class: 'x' }, 'text', childNode)
     function el(tag, attrs, ...children) {
@@ -89,45 +88,36 @@
         return el('span', { class: 'badge' }, text);
     }
 
-    // Projects (text only, no screenshots)
+    // Projects: one row each, name on the left, details on the right (text only, no screenshots)
     // ------------------------------------------------------------------------
-    function projectCard(p) {
+    function linkList(items) {
+        return items.length > 0 && el('div', { class: 'item-links' }, items.map(l => externalLink(l.href, l.label, 'item-link')));
+    }
+
+    function projectRow(p) {
         const meta = [p.context, p.year].filter(Boolean).join(', ');
         const highlights = (p.highlights || []).filter(Boolean);
         const projectLinks = (p.links || []).filter(l => l && l.href);
         const featured = Boolean(p.featured);
 
-        const bullets = highlights.length > 0 && el('ul', { class: 'bullets' }, highlights.map(h => el('li', null, h)));
-        const linkRow = projectLinks.length > 0 && el('div', { class: 'card-links' }, projectLinks.map(l => externalLink(l.href, l.label, 'card-link')));
-        const tags = el('ul', { class: 'tags', 'aria-label': 'Built with' }, (p.tags || []).map(t => el('li', { class: 'tag' }, t)));
-
-        const head = [
-            featured && badge('Featured'),
-            el('h3', { class: 'card-title' }, p.title),
-            meta && el('p', { class: 'card-meta' }, meta)
-        ];
-
-        if (featured) {
-            // Summary on the left; highlights, links, and stack on the right.
-            return el('article', { class: 'card project project-featured reveal' },
-                el('div', { class: 'card-main' }, head, el('div', { class: 'card-body' }, el('p', null, p.summary))),
-                el('div', { class: 'card-side' }, bullets, linkRow, tags)
-            );
-        }
-
-        return el('article', { class: 'card project reveal' },
-            el('div', { class: 'card-main' },
-                head,
-                el('div', { class: 'card-body' }, el('p', null, p.summary), bullets),
-                linkRow,
-                tags
+        return el('article', { class: featured ? 'project is-featured' : 'project' },
+            el('header', { class: 'project-head' },
+                el('h3', { class: 'project-title' }, p.title),
+                meta && el('p', { class: 'project-meta' }, meta),
+                featured && badge('Featured')
+            ),
+            el('div', { class: 'project-body' },
+                el('p', { class: 'project-summary' }, p.summary),
+                highlights.length > 0 && el('ul', { class: 'bullets' }, highlights.map(h => el('li', null, h))),
+                el('ul', { class: 'tags', 'aria-label': 'Built with' }, (p.tags || []).map(t => el('li', { class: 'tag' }, t))),
+                linkList(projectLinks)
             )
         );
     }
 
     const projectsList = document.getElementById('projects-list');
     if (projectsList && Array.isArray(window.PROJECTS)) {
-        projectsList.append(...window.PROJECTS.map(projectCard));
+        projectsList.append(...window.PROJECTS.map(projectRow));
     }
 
     // Music
@@ -139,7 +129,7 @@
     // Square cover art slot: a placeholder square until the image file loads.
     function artwork(t) {
         const frame = el('div', { class: 'art-placeholder', 'aria-hidden': 'true' }, icon('note'));
-        const figure = el('figure', { class: 'release-art' }, frame);
+        const figure = el('figure', { class: 'release-art' }, frame, t.status && badge(t.status));
         if (t.artwork && t.artwork.src) {
             const img = new Image();
             if (t.artwork.pixelated) img.className = 'is-pixelated';
@@ -152,40 +142,39 @@
         return figure;
     }
 
-    function releaseCard(t) {
-        const meta = [t.kind, t.artist, t.year].filter(Boolean).join(' · ');
+    function releaseItem(t) {
+        const kind = [t.kind, t.year].filter(Boolean).join(', ');
         const hasLink = t.link && t.link.url;
-        return el('li', { class: 'card release reveal' },
+        return el('li', { class: 'release' },
             artwork(t),
             el('div', { class: 'release-body' },
-                t.status && badge(t.status),
-                el('h4', { class: 'card-title' }, t.title),
-                meta && el('p', { class: 'card-meta' }, meta),
+                el('h4', { class: 'release-title' }, t.title),
+                el('p', { class: 'release-meta' }, t.artist, t.artist && kind && el('br'), kind),
                 roleList(t.roles, 'My role'),
                 t.upcoming && el('div', { class: 'release-upcoming' },
                     badge(t.upcoming.status || 'Coming soon'),
                     el('p', null, t.upcoming.text)
                 ),
-                hasLink && el('div', { class: 'track-foot' }, externalLink(t.link.url, t.link.label || 'Listen', 'card-link'))
+                hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
             )
         );
     }
 
-    function bandCard(b) {
-        return el('li', { class: 'card band reveal' },
-            el('h4', { class: 'card-title' }, b.name),
+    function bandRow(b) {
+        return el('li', { class: 'band' },
+            el('h4', { class: 'band-name' }, b.name),
             roleList(b.roles, 'What I play'),
-            b.instagram && el('div', { class: 'track-foot' }, externalLink(b.instagram, 'Instagram', 'card-link'))
+            b.instagram ? linkList([{ href: b.instagram, label: 'Instagram' }]) : el('span')
         );
     }
 
     const tracks = Array.isArray(window.MUSIC) ? window.MUSIC : [];
     const musicList = document.getElementById('music-list');
-    if (musicList) musicList.append(...tracks.map(releaseCard));
+    if (musicList) musicList.append(...tracks.map(releaseItem));
 
     const bands = Array.isArray(window.BANDS) ? window.BANDS : [];
     const bandList = document.getElementById('band-list');
-    if (bandList) bandList.append(...bands.map(bandCard));
+    if (bandList) bandList.append(...bands.map(bandRow));
 
     // Only the "coming soon" note depends on the track list; the section itself always shows.
     const musicEmpty = document.getElementById('music-empty');
@@ -215,22 +204,6 @@
             const section = document.getElementById(id);
             if (section) spy.observe(section);
         });
-    }
-
-    // Scroll reveal
-    // ------------------------------------------------------------------------
-    const revealEls = document.querySelectorAll('.reveal');
-    if (!reduceMotion.matches && 'IntersectionObserver' in window) {
-        const revealer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('is-visible');
-                obs.unobserve(entry.target);
-            });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-        revealEls.forEach(node => revealer.observe(node));
-    } else {
-        revealEls.forEach(node => node.classList.add('is-visible'));
     }
 
     // Contact form: send without leaving the page; plain POST still works without JS.

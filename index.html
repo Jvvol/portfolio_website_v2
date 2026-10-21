@@ -115,16 +115,16 @@
 
         <section id="about" class="section" aria-labelledby="about-title">
             <div class="container">
-                <h2 id="about-title" class="section-title">About</h2>
+                <div class="section-head"><h2 id="about-title" class="section-title">About</h2></div>
                 <div class="about-grid">
-                    <div class="about-story prose reveal">
+                    <div class="about-story prose">
                         <p>I’m a computer science senior at West Virginia University with a minor in music technology. I like working on both software and audio, and my favorite projects are the ones that use both.</p>
                         <p>For software, I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL. Most of my projects have been team projects run in Agile sprints. One was a 24-hour hackathon, and for another we gave a live demo to a panel of judges. Right now I’m building a web portal with Rails and AWS for my senior capstone.</p>
                         <p>For music, I use Reaper for my own recording and production. I learned Pro Tools and studio recording in my music tech classes. I scored my friend Owen’s game God Stomp, and I’m writing the soundtrack for his next one, Scratch Fever, which he plans to release on Steam. I also play in three bands: <a href="#bands" class="text-link">LVNARY, Bulge, and Koal</a>.</p>
                         <p>My audio plugins combine the two. <a href="#projects" class="text-link">Etherius</a> is a delay I wrote in C++ with JUCE, based on how analog bucket-brigade delays work, and Granulus is a granular texture processor.</p>
                         <p>The last two summers I taught programming and robotics to middle and high school students at iD Tech at Carnegie Mellon University. For summer 2027 I’m looking for a software job or internship.</p>
                     </div>
-                    <dl class="spec-sheet reveal">
+                    <dl class="spec-sheet">
                         <div><dt>Studying</dt><dd>B.S. Computer Science, minor in Music Technology, West Virginia University</dd></div>
                         <div><dt>Graduating</dt><dd>May 2027</dd></div>
                         <div><dt>Based in</dt><dd>Morgantown, WV</dd></div>
@@ -132,7 +132,7 @@
                     </dl>
                 </div>
 
-                <div class="skills reveal">
+                <div class="skills">
                     <div class="skill-group">
                         <h3>Software</h3>
                         <dl class="skill-list">
@@ -180,7 +180,7 @@
                 <p class="sub-intro">Beyond playing, I handle recording, mixing, and mastering for all three bands as needed.</p>
                 <ul class="bands" id="band-list" aria-labelledby="bands"></ul>
 
-                <aside class="services-note reveal" aria-labelledby="services-title">
+                <aside class="services-note" aria-labelledby="services-title">
                     <h3 id="services-title">Session work</h3>
                     <p>I do recording, mixing, and mastering, and I’d like to take on more of it. I don’t have my own studio space yet, so I bring my own gear to wherever you record. If that sounds useful, <a href="#contact" class="text-link">send me a message</a>.</p>
                 </aside>
@@ -191,9 +191,9 @@
 
         <section id="resume" class="section" aria-labelledby="resume-title">
             <div class="container">
-                <h2 id="resume-title" class="section-title">Resume</h2>
+                <div class="section-head"><h2 id="resume-title" class="section-title">Resume</h2></div>
                 <div class="resume-grid">
-                    <div class="resume-summary reveal">
+                    <div class="resume-summary">
                         <section class="resume-block" aria-labelledby="resume-summary-title">
                             <h3 id="resume-summary-title" class="resume-heading">Summary</h3>
                             <p>Computer science senior at West Virginia University, graduating May 2027. I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL, usually on Agile teams. Looking for a software engineering job or internship for summer 2027.</p>
@@ -280,7 +280,7 @@
                             </div>
                         </section>
                     </div>
-                    <aside class="resume-download reveal" aria-labelledby="resume-dl-title">
+                    <aside class="resume-download" aria-labelledby="resume-dl-title">
                         <h3 id="resume-dl-title">Full resume</h3>
                         <p>One page, software-focused. For audio work, see the <a href="#music" class="text-link">Music</a> section.</p>
                         <!-- TODO: add a music/audio credits sheet (studio credits, gear, DAWs, instruments) and link it here for audio-industry readers. -->
@@ -306,7 +306,7 @@
                     <p class="section-intro">If you’re hiring, want to work on music together, or just have a question, send me a message or email me.</p>
                 </div>
                 <div class="contact-grid">
-                    <form id="contact-form" class="contact-form reveal" action="https://formspree.io/f/mblydvel" method="POST">
+                    <form id="contact-form" class="contact-form" action="https://formspree.io/f/mblydvel" method="POST">
                         <div class="field">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" autocomplete="name" required maxlength="100" aria-describedby="name-error">
@@ -330,7 +330,7 @@
                         </div>
                         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
                     </form>
-                    <ul class="contact-links reveal">
+                    <ul class="contact-links">
                         <li data-link-item>
                             <a data-link="email" class="contact-link">
                                 <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
