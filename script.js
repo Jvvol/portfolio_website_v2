@@ -304,20 +304,60 @@
     const COOLDOWN_MS = 5000;
     let lastSent = 0;
 
-    function showStatus(message, isError) {
+    const FIELD_MESSAGES = {
+        name: 'Enter your name.',
+        email: 'Enter a valid email address.',
+        message: 'Enter a message.'
+    };
+
+    function showStatus(message, kind) {
         status.textContent = message;
-        status.classList.toggle('is-error', Boolean(isError));
+        status.classList.toggle('is-error', kind === 'error');
+        status.classList.toggle('is-success', kind === 'success');
+    }
+
+    // Shows or clears one field's inline error. Returns true when the field is valid.
+    function checkField(field) {
+        const error = document.getElementById(`${field.id}-error`);
+        const valid = field.validity.valid;
+        if (valid) field.removeAttribute('aria-invalid');
+        else field.setAttribute('aria-invalid', 'true');
+        if (error) error.textContent = valid ? '' : FIELD_MESSAGES[field.name] || 'Check this field.';
+        return valid;
+    }
+
+    function setSending(button, sending) {
+        button.disabled = sending;
+        button.classList.toggle('is-loading', sending);
+        if (sending) button.setAttribute('aria-busy', 'true');
+        else button.removeAttribute('aria-busy');
     }
 
     if (form && status && window.fetch) {
+        // Inline messages replace the browser's bubbles; without JS, native validation still runs.
+        form.noValidate = true;
+        const fields = [...form.querySelectorAll('input[required], textarea[required]')];
+
+        fields.forEach(field => {
+            // Only judge a field once the visitor has left it or tried to send.
+            field.addEventListener('blur', () => { if (field.value || field.hasAttribute('aria-invalid')) checkField(field); });
+            field.addEventListener('input', () => { if (field.hasAttribute('aria-invalid')) checkField(field); });
+        });
+
         form.addEventListener('submit', async e => {
             e.preventDefault();
+            const invalid = fields.filter(field => !checkField(field));
+            if (invalid.length > 0) {
+                showStatus('');
+                invalid[0].focus();
+                return;
+            }
             if (Date.now() - lastSent < COOLDOWN_MS) {
-                showStatus('Message already sent. Wait a few seconds before sending another.', true);
+                showStatus('Message already sent. Wait a few seconds before sending another.', 'error');
                 return;
             }
             const button = form.querySelector('button[type="submit"]');
-            button.disabled = true;
+            setSending(button, true);
             showStatus('Sending…');
             try {
                 const res = await fetch(form.action, {
@@ -328,12 +368,12 @@
                 if (!res.ok) throw new Error(String(res.status));
                 lastSent = Date.now();
                 form.reset();
-                showStatus('Message sent. I’ll reply by email.');
+                showStatus('Message sent. I’ll reply by email.', 'success');
             } catch (err) {
                 const fallback = links.email ? ` or email ${links.email}` : '';
-                showStatus(`Your message didn’t send. Check your connection and try again${fallback}.`, true);
+                showStatus(`Your message didn’t send. Check your connection and try again${fallback}.`, 'error');
             } finally {
-                button.disabled = false;
+                setSending(button, false);
             }
         });
     }

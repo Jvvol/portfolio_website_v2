@@ -916,10 +916,37 @@ main:focus { outline: none; }
     border-color: var(--color-focus);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 30%, transparent);
 }
-.contact-form .btn { justify-self: start; }
+.field [aria-invalid="true"],
+.field [aria-invalid="true"]:hover { border-color: var(--color-danger); }
+.field [aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 25%, transparent); }
+.field-error { color: var(--color-danger); font-size: var(--step--1); font-weight: 500; }
+.field-error:empty { display: none; }
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+}
+.form-note { max-width: 36ch; color: var(--color-text-muted); font-size: var(--step--1); }
+
+/* Sending: a small spinner inside the button. Static ring when motion is reduced. */
+.btn.is-loading { cursor: progress; opacity: 1; }
+.btn.is-loading::before {
+    content: '';
+    width: 1em; height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .btn.is-loading::before { animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(1turn); } }
+}
 
 .form-status { min-height: 1.6em; font-weight: 500; }
 .form-status.is-error { color: var(--color-danger); }
+.form-status.is-success { color: var(--color-success); }
 
 /* Contact methods as plain rows, not boxes. */
 .contact-links { border-top: 1px solid var(--color-border); }
