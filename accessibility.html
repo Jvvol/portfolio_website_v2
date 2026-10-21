@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Statement | Jacob Wolfe</title>
+    <meta name="description" content="How Jacob Wolfe’s portfolio site is built to be accessible, known limitations, and how to report a problem.">
+    <meta name="author" content="Jacob Wolfe">
+    <link rel="canonical" href="https://jvvol.github.io/portfolio_website_v2/accessibility.html">
+
+    <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="assets/img/favicon/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="assets/img/favicon/favicon-16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#e4e6e8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a2026" media="(prefers-color-scheme: dark)">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Apply the saved theme before first paint so there's no flash. -->
+    <script>
+        (function () {
+            var d = document.documentElement;
+            try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch (e) {}
+            d.classList.add('js');
+        })();
+    </script>
+
+    <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
+        <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
+    </svg>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="site-header" id="top">
+        <nav class="nav container" aria-label="Main">
+            <a href="index.html" class="brand" aria-label="Jacob Wolfe, home">Jacob Wolfe</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#music">Music</a></li>
+                <li><a href="index.html#resume">Resume</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-tools">
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+                </button>
+                <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+                    <span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+        <article class="legal container" aria-labelledby="page-title">
+            <header class="legal-head">
+                <h1 id="page-title" class="section-title">Accessibility Statement</h1>
+                <p class="legal-effective">Effective October 21, 2026</p>
+                <p class="legal-intro">This is a plain-language policy for a personal portfolio site. I want everyone to be able to use it, including people who use a keyboard, a screen reader, zoom, or other assistive technology.</p>
+            </header>
+            <nav class="legal-toc" aria-labelledby="toc-title">
+                <h2 id="toc-title" class="legal-toc-title">On this page</h2>
+                <ul>
+                    <li><a href="#standard">The standard I aim for</a></li>
+                    <li><a href="#measures">What I’ve done</a></li>
+                    <li><a href="#limitations">Known limitations</a></li>
+                    <li><a href="#compatibility">Compatibility</a></li>
+                    <li><a href="#feedback">Report a problem</a></li>
+                    <li><a href="#reviewed">Last reviewed</a></li>
+                </ul>
+            </nav>
+            <div class="legal-body prose">
+                <section aria-labelledby="standard">
+                    <h2 id="standard">The standard I aim for</h2>
+                    <p>This site aims to meet level AA of the Web Content Accessibility Guidelines, WCAG 2.1, which is the standard most accessibility laws and policies point to.</p>
+                </section>
+
+                <section aria-labelledby="measures">
+                    <h2 id="measures">What I’ve done</h2>
+                    <ul class="bullets">
+                        <li>Headings, landmarks, and lists that give the page a structure screen readers can navigate.</li>
+                        <li>A “Skip to content” link as the first thing on every page.</li>
+                        <li>Every control works with a keyboard, with a clearly visible focus outline.</li>
+                        <li>Text and controls meet WCAG AA color contrast in both the light and dark themes.</li>
+                        <li>Text can be zoomed to 200% without content being cut off, and the layout adapts down to small phone screens.</li>
+                        <li>Images have text alternatives; decorative graphics are hidden from screen readers.</li>
+                        <li>Form fields have visible labels, and errors are described in text next to the field, not just by color.</li>
+                        <li>Animation is subtle and turns off when your device asks for reduced motion.</li>
+                        <li>Nothing on the site has a time limit, autoplays sound, or flashes.</li>
+                        <li>Every page is checked with automated accessibility testing (axe) and by hand with a keyboard before changes go live.</li>
+                    </ul>
+                </section>
+
+                <section aria-labelledby="limitations">
+                    <h2 id="limitations">Known limitations</h2>
+                    <ul class="bullets">
+                        <li><strong>Resume downloads.</strong> The PDF and Word versions of my resume haven’t been fully checked for accessibility. The same information is on the page in the Resume section, and I can send it in another format on request.</li>
+                        <li><strong>Other sites.</strong> Links to Spotify, Instagram, LinkedIn, GitHub, and itch.io lead to sites I don’t control.</li>
+                        <li><strong>Assistive technology testing.</strong> I haven’t yet tested with every screen reader. If something doesn’t work with yours, please tell me.</li>
+                    </ul>
+                </section>
+
+                <section aria-labelledby="compatibility">
+                    <h2 id="compatibility">Compatibility</h2>
+                    <p>The site is built with standard HTML, CSS, and JavaScript and is designed to work in current versions of Chrome, Edge, Firefox, and Safari, along with the assistive technology that works with them. The About and Resume sections, these policy pages, and the contact form work without JavaScript; the Projects and Music lists need it.</p>
+                </section>
+
+                <section aria-labelledby="feedback">
+                    <h2 id="feedback">Report a problem</h2>
+                    <p>If you have trouble using any part of the site, or need content in a different format, email <a href="mailto:jawolfe17@yahoo.com" class="text-link">jawolfe17@yahoo.com</a>. Let me know the page and what went wrong. I’ll reply within 5 business days and work with you to fix it or get you the information another way.</p>
+                </section>
+
+                <section aria-labelledby="reviewed">
+                    <h2 id="reviewed">Last reviewed</h2>
+                    <p>This statement was last reviewed on October 21, 2026.</p>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-top">
+                <p class="footer-name">Jacob Wolfe</p>
+            </div>
+            <div class="footer-bottom">
+                <nav class="footer-legal" aria-label="Legal">
+                    <ul>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="accessibility.html" aria-current="page">Accessibility</a></li>
+                        <li><button type="button" class="link-btn" data-consent-open hidden>Cookie settings</button></li>
+                    </ul>
+                </nav>
+                <p class="footer-meta">&copy; <span data-year>2026</span> Jacob Wolfe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/consent.js" defer></script>
+    <script src="js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy | Jacob Wolfe</title>
+    <meta name="description" content="The cookies and browser storage Jacob Wolfe’s portfolio site uses, and how to change your choices.">
+    <meta name="author" content="Jacob Wolfe">
+    <link rel="canonical" href="https://jvvol.github.io/portfolio_website_v2/cookies.html">
+
+    <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="assets/img/favicon/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="assets/img/favicon/favicon-16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="assets/img/favicon/apple-touch-icon.png">
+    <meta name="theme-color" content="#e4e6e8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a2026" media="(prefers-color-scheme: dark)">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Apply the saved theme before first paint so there's no flash. -->
+    <script>
+        (function () {
+            var d = document.documentElement;
+            try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch (e) {}
+            d.classList.add('js');
+        })();
+    </script>
+
+    <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
+        <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
+    </svg>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="site-header" id="top">
+        <nav class="nav container" aria-label="Main">
+            <a href="index.html" class="brand" aria-label="Jacob Wolfe, home">Jacob Wolfe</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#music">Music</a></li>
+                <li><a href="index.html#resume">Resume</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-tools">
+                <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+                </button>
+                <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+                    <span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+        <article class="legal container" aria-labelledby="page-title">
+            <header class="legal-head">
+                <h1 id="page-title" class="section-title">Cookie Policy</h1>
+                <p class="legal-effective">Effective October 21, 2026</p>
+                <p class="legal-intro">This is a plain-language policy for a personal portfolio site. In short: this site sets no cookies and uses no trackers. It stores two small settings in your browser, only so the site works the way you asked.</p>
+            </header>
+            <nav class="legal-toc" aria-labelledby="toc-title">
+                <h2 id="toc-title" class="legal-toc-title">On this page</h2>
+                <ul>
+                    <li><a href="#what">What cookies and browser storage are</a></li>
+                    <li><a href="#used">What this site uses</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#third-parties">Other companies</a></li>
+                    <li><a href="#choices">Changing your choices</a></li>
+                    <li><a href="#more">More information</a></li>
+                </ul>
+            </nav>
+            <div class="legal-body prose">
+                <section aria-labelledby="what">
+                    <h2 id="what">What cookies and browser storage are</h2>
+                    <p>Cookies are small files a website asks your browser to keep. Sites can also keep small settings in your browser’s local storage, which works similarly but is never sent to a server automatically. Privacy laws treat both the same way, so this policy covers both.</p>
+                </section>
+
+                <section aria-labelledby="used">
+                    <h2 id="used">What this site uses</h2>
+                    <p>This site sets <strong>no cookies</strong>. It keeps two settings in your browser’s local storage, both strictly necessary for features you use:</p>
+                    <div class="table-wrap" role="region" aria-labelledby="storage-caption" tabindex="0">
+                        <table>
+                            <caption id="storage-caption">Everything this site stores in your browser</caption>
+                            <thead>
+                                <tr><th scope="col">Name</th><th scope="col">Type</th><th scope="col">Category</th><th scope="col">Purpose</th><th scope="col">How long</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><th scope="row"><code>theme</code></th><td>Local storage</td><td>Strictly necessary</td><td>Remembers whether you chose the light or dark theme. Only set if you use the theme button.</td><td>Until you clear site data</td></tr>
+                                <tr><th scope="row"><code>consent.v1</code></th><td>Local storage</td><td>Strictly necessary</td><td>Remembers your cookie choices and when you made them. Only set if you make a choice.</td><td>Until you clear site data, or until this policy changes enough to ask again</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Neither setting is ever sent to me or anyone else.</p>
+                </section>
+
+                <section aria-labelledby="categories">
+                    <h2 id="categories">Categories</h2>
+                    <ul class="bullets">
+                        <li><strong>Strictly necessary:</strong> needed for something you asked for, such as keeping your theme. Always on. The two items above are the only ones.</li>
+                        <li><strong>Functional:</strong> extra conveniences, such as embedded videos or maps. None on this site.</li>
+                        <li><strong>Analytics:</strong> measuring how the site is used. None on this site.</li>
+                        <li><strong>Marketing:</strong> advertising or tracking across sites. None on this site.</li>
+                    </ul>
+                    <p>If I ever add anything optional, it won’t run until you agree to it. A banner will ask first, with equally clear options to accept or reject.</p>
+                </section>
+
+                <section aria-labelledby="third-parties">
+                    <h2 id="third-parties">Other companies</h2>
+                    <p>No other company’s scripts, fonts, or images load on this site. The contact form sends your message to Formspree only when you press Send, and it does so without loading anything from Formspree, so Formspree doesn’t set cookies through this site. If JavaScript is turned off in your browser, sending the form takes you to a Formspree confirmation page, where <a href="https://formspree.io/legal/privacy-policy/" class="text-link">Formspree’s own policies</a> apply.</p>
+                    <p>Links to other sites, such as Spotify or Instagram, don’t load anything until you follow them.</p>
+                </section>
+
+                <section aria-labelledby="choices">
+                    <h2 id="choices">Changing your choices</h2>
+                    <ul class="bullets">
+                        <li>Use <strong>Cookie settings</strong> at the bottom of any page to review or change your choices at any time.</li>
+                        <li>You can delete everything this site has stored using your browser’s settings for site data.</li>
+                        <li>If your browser sends a <strong>Global Privacy Control</strong> signal, optional analytics and marketing stay off automatically.</li>
+                    </ul>
+                </section>
+
+                <section aria-labelledby="more">
+                    <h2 id="more">More information</h2>
+                    <p>The <a href="privacy.html" class="text-link">Privacy Policy</a> explains how I handle personal information. Questions: <a href="mailto:jawolfe17@yahoo.com" class="text-link">jawolfe17@yahoo.com</a>.</p>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-top">
+                <p class="footer-name">Jacob Wolfe</p>
+            </div>
+            <div class="footer-bottom">
+                <nav class="footer-legal" aria-label="Legal">
+                    <ul>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="cookies.html" aria-current="page">Cookies</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="accessibility.html">Accessibility</a></li>
+                        <li><button type="button" class="link-btn" data-consent-open hidden>Cookie settings</button></li>
+                    </ul>
+                </nav>
+                <p class="footer-meta">&copy; <span data-year>2026</span> Jacob Wolfe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/consent.js" defer></script>
+    <script src="js/site.js" defer></script>
+</body>
+</html>
