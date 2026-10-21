@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-website-v2-tests",
+  "private": true,
+  "description": "Dev-only checks for the static site. Nothing here is served.",
+  "scripts": {
+    "test": "playwright test",
+    "serve": "http-server . -p 4173 -c-1 -s"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "http-server": "^14.1.1"
+  }
+}

@@ -8,4 +8,6 @@ Thumbs.db
 # Logs
 *.log
 # Environment files
-.env
+.env# Test output
+test-results/
+playwright-report/
