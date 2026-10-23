@@ -276,6 +276,15 @@
         ['results', 'Results']
     ];
 
+    function hasCaseStudy(p) {
+        return Boolean(p.caseStudy) && CASE_PARTS.some(([key]) => p.caseStudy[key]);
+    }
+
+    // A large row needs something to open; projects without a write-up go to the compact list.
+    function isFeatured(p) {
+        return Boolean(p.featured) && hasCaseStudy(p);
+    }
+
     function caseStudy(p) {
         const study = p.caseStudy || {};
         const parts = CASE_PARTS.filter(([key]) => study[key]);
@@ -329,8 +338,8 @@
     const featuredList = document.getElementById('projects-list');
     const moreList = document.getElementById('projects-more');
     const moreBlock = document.getElementById('projects-more-block');
-    if (featuredList) featuredList.append(...projects.filter(p => p.featured).map(projectRow));
-    if (moreList) moreList.append(...projects.filter(p => !p.featured).map(projectItem));
+    if (featuredList) featuredList.append(...projects.filter(isFeatured).map(projectRow));
+    if (moreList) moreList.append(...projects.filter(p => !isFeatured(p)).map(projectItem));
     if (moreBlock && moreList && moreList.children.length === 0) moreBlock.hidden = true;
 
     // Filter: a toggle-button group. Hidden without JS, where every project shows.

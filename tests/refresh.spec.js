@@ -17,16 +17,16 @@ test('area filter narrows projects and announces the count', async ({ page }) =>
     await page.locator('#project-filter [data-filter="both"]').click();
     await expect(page.locator('#project-filter [data-filter="both"]')).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('#projects [data-area]:visible')).toHaveCount(2);
-    await expect(page.locator('#projects-more-block')).toBeHidden();
-    await expect(page.locator('#project-filter-status')).toHaveText('Showing 2 of 7 projects');
+    await expect(page.locator('#projects-more-block')).toBeVisible();
+    await expect(page.locator('#project-filter-status')).toHaveText('Showing 2 of 8 projects');
     await expect(page.locator('#projects-empty')).toBeHidden();
 
     await page.locator('#project-filter [data-filter="software"]').click();
-    await expect(page.locator('#projects [data-area]:visible')).toHaveCount(5);
+    await expect(page.locator('#projects [data-area]:visible')).toHaveCount(6);
     await expect(page.locator('#projects-more-block')).toBeVisible();
 
     await page.locator('#project-filter [data-filter="all"]').click();
-    await expect(page.locator('#projects [data-area]:visible')).toHaveCount(7);
+    await expect(page.locator('#projects [data-area]:visible')).toHaveCount(8);
 });
 
 test('filter buttons work from the keyboard', async ({ page }) => {
@@ -64,6 +64,7 @@ test('featured projects open a case study with only the parts that exist', async
     await expect(study.locator('dt')).toHaveText(['My role', 'Approach']);
     // A project with no write-up yet shows no empty disclosure.
     await expect(page.locator('#granulus .case-study')).toHaveCount(0);
+    await expect(page.locator('#granulus')).toHaveClass(/project-item/);
 });
 
 test('no availability line repeated in the bio', async ({ page }) => {

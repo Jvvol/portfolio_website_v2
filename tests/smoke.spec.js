@@ -9,12 +9,14 @@ test.beforeEach(async ({ page }) => {
 
 test('projects render: featured rows with previews, the rest in a compact list', async ({ page }) => {
     const rows = page.locator('#projects-list article');
-    await expect(rows).toHaveCount(5);
+    await expect(rows).toHaveCount(4);
     await expect(rows.first()).toHaveClass(/is-lead/);
     await expect(rows.first()).toContainText('Etherius');
     await expect(rows.first().locator('.area')).toHaveText('Audio + software');
-    await expect(page.locator('#projects-list .preview')).toHaveCount(5);
-    await expect(page.locator('#projects-more > li')).toHaveCount(2);
+    await expect(page.locator('#projects-list .preview')).toHaveCount(4);
+    // Projects without a write-up (Granulus, LVNARY website, MapChat, this site) are compact.
+    await expect(page.locator('#projects-more > li')).toHaveCount(4);
+    await expect(page.locator('#projects-more')).toContainText('Granulus');
 });
 
 test('music renders', async ({ page }) => {

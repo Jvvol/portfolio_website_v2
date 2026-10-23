@@ -9,8 +9,9 @@
 //   links      Optional [{ label, href }], each opens in a new tab
 //   area       'both' (audio + software, e.g. plugins) or 'software'. Drives the filter
 //              and the indicator light: 'both' is lit. 'audio' also works if you add one.
-//   featured   Optional: true shows a large row with a preview. The first featured project
-//              leads the list. Others appear under "More projects".
+//   featured   Optional: true shows a large row with a preview, as long as the project also
+//              has a caseStudy. The first one leads the list. Everything else appears
+//              under "More projects".
 //   media      Optional preview for featured projects. Until set, a placeholder shows.
 //                { type: 'image', src, alt }                        screenshot or photo (16:10 works best)
 //                { type: 'audio', src, title, transcript }          self-hosted clip, plays on the page
@@ -103,7 +104,7 @@ window.PROJECTS = [
         area: 'software',
         featured: true,
         media: null, // TODO: screenshot, and a repo or demo link if public
-        summary: 'A web app that encourages Gen Z voter turnout with unbiased voting information, built by a four-person team in a 24-plus-hour hackathon.',
+        summary: 'A web app that gives Gen Z voters unbiased voting information, to get more of them to the polls. Four of us built it in a 24-plus-hour hackathon.',
         caseStudy: {
             problem: 'Encouraging Gen Z voter turnout with unbiased voting information.',
             role: 'One of four on the team. I implemented the PostgreSQL backend.',
@@ -113,6 +114,19 @@ window.PROJECTS = [
         },
         tags: ['TypeScript', 'PostgreSQL', 'Neon'],
         links: []
+    },
+    {
+        title: 'LVNARY website',
+        context: 'Website for my band',
+        year: null, // TODO: year built
+        area: 'software',
+        summary: 'The website for LVNARY, the band I play guitar and sing in. Plain HTML, CSS, and JavaScript.',
+        // TODO: what it has (shows, music, merch?), whether you built it alone, and a screenshot.
+        highlights: [],
+        tags: ['HTML', 'CSS', 'JavaScript'],
+        links: [
+            { label: 'lvnary.com', href: 'https://lvnary.com' }
+        ]
     },
     {
         title: 'MapChat',
