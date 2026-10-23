@@ -37,7 +37,8 @@
     const header = document.querySelector('.site-header');
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     if (header) {
-        onScroll();
+        // First check waits a frame so it doesn't force layout while the page is still building.
+        requestAnimationFrame(onScroll);
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 

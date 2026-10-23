@@ -196,6 +196,8 @@
                 title: `${title} on ${provider}`,
                 loading: 'lazy',
                 allow: 'autoplay; clipboard-write; encrypted-media; picture-in-picture',
+                // Defense in depth: the player can run its own scripts and open its own links, nothing more.
+                sandbox: 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation',
                 allowfullscreen: embed.provider === 'youtube'
             });
             slot.replaceChildren(frame);

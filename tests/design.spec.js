@@ -7,7 +7,7 @@ test('two button styles: one filled primary in the hero, every secondary alike',
     await page.goto('/index.html');
     await expect(page.locator('#music-list .btn').first()).toBeVisible();
     await expect(page.locator('.hero .btn:not(.btn-secondary)')).toHaveCount(1);
-    await expect(page.locator('.hero .btn:not(.btn-secondary)')).toHaveText('View projects');
+    await expect(page.locator('.hero .btn:not(.btn-secondary)')).toHaveAttribute('href', '#projects');
     const look = sel => page.locator(sel).evaluateAll(nodes => nodes.map(n => {
         const s = getComputedStyle(n);
         return [s.backgroundColor, s.color, s.borderColor, s.borderRadius, s.fontWeight].join(' ');

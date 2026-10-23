@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jacob Wolfe | Developer, Producer, Musician</title>
-    <meta name="description" content="Jacob Wolfe builds software and audio tools, and records, produces, and plays music. Computer Science senior at West Virginia University with a minor in Music Technology.">
+    <title>Jacob Wolfe | Software Developer, Audio Producer & Musician</title>
+    <meta name="description" content="I'm Jacob Wolfe, a software developer and musician who builds applications, develops audio plugins, produces music, and composes soundtracks. Computer Science senior at West Virginia University, graduating May 2027.">
     <meta name="author" content="Jacob Wolfe">
     <link rel="canonical" href="https://jvvol.github.io/portfolio_website_v2/">
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Jacob Wolfe">
-    <meta property="og:title" content="Jacob Wolfe | Developer, Producer, Musician">
-    <meta property="og:description" content="I build software and audio tools, and I record, produce, and play music.">
+    <meta property="og:title" content="Jacob Wolfe | Software Developer, Audio Producer & Musician">
+    <meta property="og:description" content="I build software, create audio tools, produce music, and compose soundtracks. I'm at my best when technology and creativity come together.">
     <meta property="og:url" content="https://jvvol.github.io/portfolio_website_v2/">
     <meta property="og:image" content="https://jvvol.github.io/portfolio_website_v2/assets/img/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Jacob Wolfe: Developer, Producer, Musician">
+    <meta property="og:image:alt" content="Jacob Wolfe — Software Developer, Audio Producer, and Musician">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Jacob Wolfe | Developer, Producer, Musician">
-    <meta name="twitter:description" content="I build software and audio tools, and I record, produce, and play music.">
+    <meta name="twitter:title" content="Jacob Wolfe | Software Developer, Audio Producer & Musician">
+    <meta name="twitter:description" content="I build software, create audio tools, produce music, and compose soundtracks. I'm at my best when technology and creativity come together.">
     <meta name="twitter:image" content="https://jvvol.github.io/portfolio_website_v2/assets/img/og-image.png">
 
     <link rel="icon" href="assets/img/favicon/favicon.ico" sizes="16x16 32x32 48x48">
@@ -31,11 +31,12 @@
     <meta name="theme-color" content="#1a2026" media="(prefers-color-scheme: dark)">
 
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://open.spotify.com https://www.youtube-nocookie.com; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-DUxfe9m5K7FauMLHxuNGDvgImKMnhl8k20mWO77tla8='; style-src 'self'; img-src 'self' data:; font-src 'self'; frame-src https://open.spotify.com https://www.youtube-nocookie.com; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <!-- Apply the saved theme before first paint so there's no flash. -->
+    <!-- Apply the saved theme before first paint so there's no flash.
+         The CSP allows this script by its SHA-256 hash: if you edit it, update the hash in every page. -->
     <script>
         (function () {
             var d = document.documentElement;
@@ -75,9 +76,9 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-tools">
-                <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary nav-resume">
+                <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary nav-resume" download>
                     <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
-                    Resume PDF
+                    <span><span class="nav-resume-verb">Download </span><span class="nav-resume-noun">resume</span></span>
                 </a>
                 <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
                     <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
@@ -95,16 +96,16 @@
             <div class="container hero-grid">
                 <div class="hero-text">
                     <h1 id="hero-title" class="hero-title"><span class="hero-name">Jacob Wolfe</span><span class="sr-only">: </span> <span class="hero-roles">Developer <span class="hero-sep" aria-hidden="true">/</span> Producer <span class="hero-sep" aria-hidden="true">/</span> Musician</span></h1>
-                    <p class="hero-lede">I build software and make music, and I’m at my best when a project needs both: a band’s website, a game’s soundtrack, an audio plugin that has to sound right.</p>
-                    <p class="status"><span class="status-light" aria-hidden="true"></span>CS senior at West Virginia University, graduating May&nbsp;2027. Looking for a software job or internship for summer&nbsp;2027.</p>
+                    <p class="hero-lede">I build software and make music. The projects I love most bring both together: an audio plugin that sounds just right, a soundtrack that gives a game its personality, or a website that helps a band find its audience.</p>
+                    <p class="status"><span class="status-light" aria-hidden="true"></span>Computer Science senior at West Virginia University, graduating May&nbsp;2027. Open to software engineering roles and internships for summer&nbsp;2027.</p>
                     <div class="hero-actions">
-                        <a href="#projects" class="btn">View projects</a>
-                        <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary">Resume (PDF)</a>
+                        <a href="#projects" class="btn">Explore my projects</a>
+                        <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary">View resume (PDF)</a>
                     </div>
                 </div>
                 <figure class="hero-portrait">
                     <img src="assets/img/jacob-wolfe-480.jpg"
-                         srcset="assets/img/jacob-wolfe-480.jpg 480w, assets/img/jacob-wolfe-960.jpg 960w"
+                         srcset="assets/img/jacob-wolfe-240.jpg 240w, assets/img/jacob-wolfe-480.jpg 480w, assets/img/jacob-wolfe-960.jpg 960w"
                          sizes="(min-width: 861px) 352px, 112px"
                          width="480" height="480"
                          alt="Portrait of Jacob Wolfe"
@@ -118,21 +119,21 @@
                 <div class="section-head section-head-split">
                     <div>
                         <h2 id="projects-title" class="section-title">Projects</h2>
-                        <p class="section-intro">Audio plugins, websites, apps, and a hackathon build. Some I made with teams for school, some on my own. A lit light marks the ones that are both audio and software.</p>
+                        <p class="section-intro">From audio plugins and full-stack apps to websites and hackathon builds, these are projects I've designed, built, and learned from. Some came out of team collaborations; others started with an idea of my own. Look for the lit indicator to find projects where software and audio meet.</p>
                     </div>
                     <div class="filter-bar" id="project-filter" role="group" aria-label="Filter projects by area" hidden></div>
                 </div>
                 <p class="sr-only" id="project-filter-status" role="status" aria-live="polite"></p>
                 <div class="projects" id="projects-list"></div>
                 <div class="projects-empty" id="projects-empty" hidden>
-                    <p>No projects in this area yet.</p>
-                    <button type="button" class="btn btn-secondary" id="projects-empty-reset">Show all projects</button>
+                    <p>Nothing here just yet. Try another category to see more of my work.</p>
+                    <button type="button" class="btn btn-secondary" id="projects-empty-reset">Explore all projects</button>
                 </div>
                 <div class="projects-more" id="projects-more-block">
                     <h3 class="sub-heading">More projects</h3>
                     <ul class="project-items" id="projects-more"></ul>
                 </div>
-                <noscript><p class="noscript">Turn on JavaScript to see project details, or browse my code on <a href="https://github.com/Jvvol">GitHub</a>.</p></noscript>
+                <noscript><p class="noscript">JavaScript is needed to display the interactive project details. In the meantime, you can explore my code on <a href="https://github.com/Jvvol">GitHub</a>.</p></noscript>
             </div>
         </section>
 
@@ -141,20 +142,20 @@
             <div class="container">
                 <div class="section-head">
                     <h2 id="music-title" class="section-title">Music</h2>
-                    <p class="section-intro">Releases I’ve worked on and what I did on each, plus the bands I play in.</p>
+                    <p class="section-intro">A look at the music I've helped bring to life, the roles I've played along the way, and the bands I'm making noise with.</p>
                 </div>
 
                 <h3 class="sub-heading" id="releases-title">Releases</h3>
-                <p class="music-empty" id="music-empty">Music coming soon.</p>
+                <p class="music-empty" id="music-empty">New releases are on the way. Check back soon.</p>
                 <ul class="releases" id="music-list" aria-labelledby="releases-title"></ul>
 
                 <h3 class="sub-heading" id="bands">Bands</h3>
-                <p class="sub-intro">Besides playing, I record, mix, and master for all three when they need it.</p>
+                <p class="sub-intro">I play in all three bands and help bring our recordings to life with recording, mixing, and mastering whenever needed.</p>
                 <ul class="bands" id="band-list" aria-labelledby="bands"></ul>
 
                 <aside class="services-note" aria-labelledby="services-title">
-                    <h3 id="services-title">Session work</h3>
-                    <p>I record, mix, and master, and I’d like to do more of it for other people. I don’t have my own studio yet, so I bring my gear to wherever you’re recording. If that sounds useful, <a href="#contact" class="text-link">send me a message</a>.</p>
+                    <h3 id="services-title">Recording, mixing & mastering</h3>
+                    <p>I enjoy helping music sound the way it should, from capturing a great take to polishing the final mix. I'm looking to work with more artists and bands. I don't have a dedicated studio of my own yet, so I bring my gear to your recording space. Have a project in mind? <a href="#contact" class="text-link">Let's talk about it</a>.</p>
                 </aside>
 
                 <ul class="platform-links" id="music-platforms" aria-label="Music profiles"></ul>
@@ -166,36 +167,45 @@
                 <div class="section-head"><h2 id="about-title" class="section-title">About</h2></div>
                 <div class="about-grid">
                     <div class="about-story prose">
-                        <p>I’m a computer science senior at West Virginia University with a minor in music technology. I like working on both software and audio, and my favorite projects are the ones that use both.</p>
-                        <p>For software, I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL. Most of them were team projects run in Agile sprints. One was a 24-hour hackathon, and for another we gave a live demo to a panel of judges. Right now I’m building a web portal with Rails and AWS for my senior capstone.</p>
-                        <p>For music, I use Reaper for my own recording and production. I learned Pro Tools and studio recording in my music tech classes. I scored my friend Owen’s game God Stomp, and I’m writing the soundtrack for his next one, Scratch Fever, which he plans to release on Steam. I also play in three bands, <a href="#bands" class="text-link">LVNARY, Bulge, and Koal</a>, and I built LVNARY’s website.</p>
-                        <p>My audio plugins combine the two. <a href="#etherius" class="text-link">Etherius</a> is a delay I wrote in C++ with JUCE, based on how analog bucket-brigade delays work, and Granulus is a granular texture processor.</p>
-                        <p>The last two summers I taught programming and robotics to middle and high school students at iD Tech at Carnegie Mellon University.</p>
+                        <p>I'm a Computer Science senior at West Virginia University, minoring in Music Technology. I've always enjoyed both the creative and technical sides of making things, and I'm especially drawn to projects where the two overlap.</p>
+                        <p>On the software side, I work primarily in Java and C++, with full-stack experience using TypeScript, Node.js, Ruby on Rails, and PostgreSQL. I've collaborated on team projects using Agile sprints, built a project in a 24-hour hackathon, and presented a live demo to a panel of judges. Right now, I'm putting those skills to work on my senior capstone: a web portal built with Rails and AWS.</p>
+                        <p>Music is the other half of what I do. I record and produce my own work in Reaper and have studied Pro Tools and studio recording through my music technology courses. I composed the soundtrack for my friend Owen's game, God Stomp, and I'm working on the music for his next game, Scratch Fever, which he plans to release on Steam. Outside of that, I play in <a href="#bands" class="text-link">LVNARY, Bulge, and Koal</a> and built the website for LVNARY.</p>
+                        <p>I bring those interests together through audio software, too. <a href="#etherius" class="text-link">Etherius</a> is a C++ audio delay plugin built with JUCE and inspired by analog bucket-brigade delay circuits. I'm also developing Granulus, a granular texture processor designed to explore the more experimental side of sound.</p>
+                        <p>I've also spent the last two summers teaching programming and robotics to middle and high school students at iD Tech at Carnegie Mellon University. It's been a great way to share what I know, help students work through problems, and see them bring their own ideas to life.</p>
                     </div>
                     <dl class="spec-sheet">
-                        <div><dt>Studying</dt><dd>B.S. Computer Science, minor in Music Technology, West Virginia University</dd></div>
-                        <div><dt>Graduating</dt><dd>May 2027</dd></div>
-                        <div><dt>Based in</dt><dd>Morgantown, WV</dd></div>
-                        <div><dt>Looking for</dt><dd>Software job or internship, summer 2027</dd></div>
+                        <div><dt>Education</dt><dd>B.S. Computer Science, minor in Music Technology, West Virginia University</dd></div>
+                        <div><dt>Graduation</dt><dd>May 2027</dd></div>
+                        <div><dt>Location</dt><dd>Morgantown, WV</dd></div>
+                        <div><dt>Next opportunity</dt><dd>Software engineering role or internship, summer 2027</dd></div>
                     </dl>
                 </div>
 
                 <div class="skills">
                     <div class="skill-group">
-                        <h3>Software</h3>
+                        <h3>Software & development</h3>
                         <dl class="skill-list">
                             <div><dt>Languages</dt><dd>Java, C++, C, TypeScript, JavaScript, Ruby, Dart, PHP, SQL, HTML/CSS</dd></div>
-                            <div><dt>Backend and data</dt><dd>Ruby on Rails, Node.js, Express, REST APIs, PostgreSQL, MySQL, Firebase, Neon, schema design</dd></div>
-                            <div><dt>Frameworks and tools</dt><dd>React, Flutter, AWS, Azure, Docker, Git/GitHub, Agile/Scrum, VS Code, Visual Studio, WSL</dd></div>
+                            <div><dt>Backend & databases</dt><dd>Ruby on Rails, Node.js, Express, REST APIs, PostgreSQL, MySQL, Firebase, Neon, database schema design</dd></div>
+                            <div><dt>Frameworks & tools</dt><dd>React, Flutter, AWS, Azure, Docker, Git/GitHub, Agile/Scrum, VS Code, Visual Studio, WSL</dd></div>
                         </dl>
                     </div>
                     <div class="skill-group">
-                        <h3>Audio</h3>
+                        <h3>Audio & music</h3>
                         <dl class="skill-list">
-                            <div><dt>Plugin development</dt><dd>C++, JUCE, DSP</dd></div>
-                            <div><dt>DAWs and studio</dt><dd>Reaper (my main DAW), Pro Tools (learned in class), recording practice (Practicum Recording Technology)</dd></div>
+                            <div><dt>Audio development</dt><dd>C++, JUCE, digital signal processing (DSP)</dd></div>
+                            <div><dt>Recording & production</dt><dd>Reaper (primary DAW), Pro Tools (academic experience), studio recording and recording practicum</dd></div>
                             <div><dt>Instruments</dt><dd>Guitar, vocals, drums</dd></div>
-                            <!-- TODO: add the gear you use (interface, mics) and any other instruments. -->
+                            <div><dt>Plugins & libraries</dt><dd>GGD Modern Fusion, Neural DSP Archetype: Plini X</dd></div>
+                        </dl>
+                    </div>
+                    <div class="skill-group">
+                        <h3>Gear</h3>
+                        <dl class="skill-list">
+                            <div><dt>Recording</dt><dd>Behringer UMC1820 interface, ASUS ROG Zephyrus G14, Shure SM58s, four drum mics (two pencil condenser overheads, two dynamics)</dd></div>
+                            <!-- TODO: confirm the drum mic brand(s) (Audio-Technica / Digital Reference) and add it above. -->
+                            <div><dt>Guitar</dt><dd>Ibanez RG421, Jackson Dinky 7-string, Boss Katana MkII head, Orange PPC212 cab</dd></div>
+                            <div><dt>Drums</dt><dd>Ludwig Element Evolution kit, Tama Iron Cobra 200 pedal, Meinl Byzance Traditional hi-hats and 15" Thin crash, Zildjian A Custom 20" ride, Wuhan 18" China, Alesis e-kit</dd></div>
                         </dl>
                     </div>
                 </div>
@@ -213,9 +223,9 @@
                                 <h4>VEX Robotics Instructor</h4>
                                 <p class="resume-meta">iD Tech at Carnegie Mellon University, Pittsburgh, PA. Summers 2025 and 2026</p>
                                 <ul class="bullets">
-                                    <li>Taught programming and engineering to groups of 4 to 12 middle and high school students, adjusting explanations to each student’s level.</li>
-                                    <li>Debugged student code and hardware issues step by step.</li>
-                                    <li>Led team engineering projects and competitive robotics activities.</li>
+                                    <li>Taught programming and engineering to groups of 4–12 middle and high school students, adapting explanations and instruction to different skill levels.</li>
+                                    <li>Helped students troubleshoot code and hardware by breaking problems into manageable steps.</li>
+                                    <li>Guided collaborative engineering projects and hands-on competitive robotics activities.</li>
                                 </ul>
                             </div>
                         </section>
@@ -226,15 +236,15 @@
                                 <h4>West Virginia University, Morgantown, WV</h4>
                                 <p class="resume-meta">B.S. Computer Science, minor in Music Technology. Expected May 2027</p>
                                 <ul class="bullets">
-                                    <li>GPA 3.56. Dean’s List. PROMISE and Beneke Scholarships, all four years.</li>
-                                    <li>Coursework: Advanced Software Engineering, Data Structures and Algorithms, Operating Systems, Database Design, Computer Systems Concepts, Microprocessor Systems, Digital Logic Design, Intro to Pro Tools, Practicum Recording Technology.</li>
+                                    <li>3.56 GPA; Dean's List; recipient of PROMISE and Beneke Scholarships throughout all four years.</li>
+                                    <li>Relevant coursework: Advanced Software Engineering, Data Structures and Algorithms, Operating Systems, Database Design, Computer Systems Concepts, Microprocessor Systems, Digital Logic Design, Introduction to Pro Tools, and Practicum Recording Technology.</li>
                                 </ul>
                             </div>
                         </section>
                     </div>
                     <aside class="resume-download" aria-labelledby="resume-dl-title">
-                        <h3 id="resume-dl-title">Full resume</h3>
-                        <p>One page, software-focused, with my projects and skills. For audio work, see <a href="#music" class="text-link">Music</a>.</p>
+                        <h3 id="resume-dl-title">Want the full picture?</h3>
+                        <p>My one-page resume covers my software projects, technical skills, and experience. For the music side of my work, explore the <a href="#music" class="text-link">Music section</a>.</p>
                         <!-- TODO: add a music/audio credits sheet (studio credits, gear, DAWs, instruments) and link it here for audio-industry readers. -->
                         <div class="resume-buttons">
                             <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn" download>
@@ -254,31 +264,31 @@
         <section id="contact" class="section" aria-labelledby="contact-title">
             <div class="container">
                 <div class="section-head">
-                    <h2 id="contact-title" class="section-title">Contact</h2>
-                    <p class="section-intro">If you’re hiring, want to make music together, or just have a question, send me a message or email me.</p>
+                    <h2 id="contact-title" class="section-title">Let's connect</h2>
+                    <p class="section-intro">Have a software opportunity, a music project, or an idea you'd like to talk through? I'd love to hear from you. Send me a message or reach out by email.</p>
                 </div>
                 <div class="contact-grid">
                     <form id="contact-form" class="contact-form" action="https://formspree.io/f/mblydvel" method="POST">
                         <div class="field">
-                            <label for="name">Name</label>
+                            <label for="name">Your name</label>
                             <input type="text" id="name" name="name" autocomplete="name" required maxlength="100" aria-describedby="name-error">
                             <p class="field-error" id="name-error"></p>
                         </div>
                         <div class="field">
-                            <label for="email">Email</label>
+                            <label for="email">Your email</label>
                             <input type="email" id="email" name="email" autocomplete="email" required maxlength="254" aria-describedby="email-error">
                             <p class="field-error" id="email-error"></p>
                         </div>
                         <div class="field">
-                            <label for="message">Message</label>
+                            <label for="message">What would you like to talk about?</label>
                             <textarea id="message" name="message" rows="5" required maxlength="1000" aria-describedby="message-error"></textarea>
                             <p class="field-error" id="message-error"></p>
                         </div>
                         <!-- Spam trap: people never see or fill this field. -->
                         <input type="text" name="_gotcha" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <div class="form-actions">
-                            <button type="submit" class="btn">Send message</button>
-                            <p class="form-note">I’ll only use this to reply to you. See the <a href="privacy.html" class="text-link">Privacy Policy</a>.</p>
+                            <button type="submit" class="btn">Send me a message</button>
+                            <p class="form-note">Your message comes to my inbox through Formspree, and I'll use your details only to reply. Read my <a href="privacy.html" class="text-link">Privacy Policy</a>.</p>
                         </div>
                         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
                     </form>
@@ -312,7 +322,7 @@
             <div class="footer-top">
                 <p class="footer-name">Jacob Wolfe</p>
                 <ul class="footer-links" id="footer-links" aria-label="Resume and profiles">
-                    <li><a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Resume (PDF)</a></li>
+                    <li><a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" download><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download resume (PDF)</a></li>
                 </ul>
             </div>
             <div class="footer-bottom">

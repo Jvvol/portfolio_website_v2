@@ -75,3 +75,18 @@ test('filter buttons have readable names', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'All 8 projects' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Audio + software 2 projects' })).toBeVisible();
 });
+
+test('no Content-Security-Policy violations on any page, or when a player loads', async ({ page }) => {
+    const { PAGES } = require('./helpers');
+    const violations = [];
+    page.on('console', m => { if (/Content Security Policy|Refused to/i.test(m.text())) violations.push(m.text()); });
+    await page.route('https://open.spotify.com/**', route => route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>stub</title>' }));
+    for (const path of PAGES) {
+        await page.goto(path);
+        await page.waitForLoadState('networkidle');
+    }
+    await page.goto('/index.html');
+    await page.locator('#music-list > li', { hasText: 'Temporary' }).getByRole('button', { name: 'Play here' }).click();
+    await expect(page.locator('#music-list iframe')).toHaveAttribute('sandbox', /allow-scripts/);
+    expect(violations).toEqual([]);
+});

@@ -117,11 +117,11 @@ window.PROJECTS = [
     },
     {
         title: 'LVNARY website',
-        context: 'Website for my band',
+        context: 'Solo project, website for my band',
         year: null, // TODO: year built
         area: 'software',
-        summary: 'The website for LVNARY, the band I play guitar and sing in. Plain HTML, CSS, and JavaScript.',
-        // TODO: what it has (shows, music, merch?), whether you built it alone, and a screenshot.
+        summary: 'The website for LVNARY, the band I play guitar and sing in. I built it on my own with plain HTML, CSS, and JavaScript.',
+        // TODO: what it has (shows, music, merch?) and a screenshot.
         highlights: [],
         tags: ['HTML', 'CSS', 'JavaScript'],
         links: [

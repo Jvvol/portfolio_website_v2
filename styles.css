@@ -369,6 +369,8 @@ main:focus { outline: none; }
     .nav { gap: var(--space-2); }
     .nav-resume { padding-inline: 0.75rem; }
     .nav-resume .icon { display: none; }
+    .nav-resume-verb { display: none; }
+    .nav-resume-noun { text-transform: capitalize; }
 }
 
 .icon-btn {
@@ -633,7 +635,7 @@ html:not(.js) .theme-toggle { display: none; }
 
 .skills {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
     gap: var(--space-4);
 }
 .skill-group h3 {
