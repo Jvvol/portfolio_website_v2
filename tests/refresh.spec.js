@@ -70,3 +70,8 @@ test('featured projects open a case study with only the parts that exist', async
 test('no availability line repeated in the bio', async ({ page }) => {
     await expect(page.locator('#about .about-story')).not.toContainText('summer 2027');
 });
+
+test('filter buttons have readable names', async ({ page }) => {
+    await expect(page.getByRole('button', { name: 'All 8 projects' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Audio + software 2 projects' })).toBeVisible();
+});

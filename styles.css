@@ -455,9 +455,9 @@ html:not(.js) .theme-toggle { display: none; }
 }
 
 /* The one large thing on the page: who, and what he builds, in one sentence. */
-.hero-title { display: grid; gap: var(--space-2); }
+.hero-title { display: grid; gap: var(--space-2); font-size: var(--step-4); }
 .hero-name {
-    font-size: var(--step-4);
+    font-size: 1em;
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.035em;
@@ -573,10 +573,7 @@ html:not(.js) .theme-toggle { display: none; }
 /* Sections: title in a quiet left column, content on the right
    ========================================================================== */
 
-.section {
-    padding-block: var(--section-pad);
-    border-top: 1px solid var(--color-border);
-}
+.section { padding-block: var(--section-pad); }
 
 .section-title {
     font-size: var(--step-3);

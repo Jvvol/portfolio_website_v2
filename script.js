@@ -357,7 +357,7 @@
 
         const buttons = options.map(o => el('button', {
             type: 'button', class: o.lit ? 'filter is-lit' : 'filter', 'data-filter': o.key, 'aria-pressed': String(o.key === 'all')
-        }, el('span', null, o.label), el('span', { class: 'filter-count' }, String(o.count))));
+        }, el('span', null, o.label), ' ', el('span', { class: 'filter-count' }, String(o.count)), el('span', { class: 'sr-only' }, ' projects')));
 
         function applyFilter(key) {
             buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
