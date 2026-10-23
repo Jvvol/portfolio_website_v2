@@ -437,7 +437,6 @@ html:not(.js) .theme-toggle { display: none; }
         transform: none;
         transition: opacity var(--dur), transform var(--dur) var(--ease);
     }
-    .js .nav-links { transform-origin: top center; }
     .js .nav-links a { padding: 0.85rem 0.25rem; font-size: 1.05rem; }
     .js .nav-links li + li { border-top: 1px solid var(--color-border); }
 }
@@ -546,7 +545,7 @@ html:not(.js) .theme-toggle { display: none; }
         from { opacity: 0; transform: translateY(8px); }
     }
     @keyframes power-on {
-        from { opacity: 0.25; transform: scale(0.6); }
+        from { opacity: 0.2; transform: scale(0.85); }
     }
     @keyframes ring {
         from { opacity: 0.9; transform: scale(0.4); }
@@ -816,7 +815,7 @@ html:not(.js) .theme-toggle { display: none; }
 /* Played portion of the waveform, drawn over the unplayed one and revealed by progress. */
 .preview .signal-played {
     color: var(--color-indicator-text);
-    clip-path: inset(0 calc(100% - var(--progress, 0) * 100%) 0 0);
+    clip-path: inset(0 100% 0 0);   /* set from script as it plays */
     transition: clip-path 250ms linear;
 }
 .preview-audio .signal:not(.signal-played) { color: var(--color-border-strong); }
@@ -847,13 +846,6 @@ html:not(.js) .theme-toggle { display: none; }
 .preview-video { place-items: center; }
 .preview-video .embed.is-loaded { position: absolute; inset: 0; }
 .preview-video iframe { width: 100%; height: 100%; border: 0; }
-
-@media (prefers-reduced-motion: no-preference) {
-    [data-area].is-entering { animation: settle var(--dur) var(--ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
-}
-@media (prefers-reduced-motion: reduce) {
-    [data-area].is-entering { animation: fade var(--dur-fast) ease both; }
-}
 
 .projects-empty { display: grid; justify-items: start; gap: var(--space-2); color: var(--color-text-muted); }
 
@@ -914,7 +906,7 @@ html:not(.js) .theme-toggle { display: none; }
 .player-toggle .icon { width: 1.1rem; height: 1.1rem; }
 .player-toggle { position: relative; }
 .player-toggle .icon { grid-area: 1 / 1; transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease); }
-.player-toggle .is-hidden { opacity: 0; transform: scale(0.6); }
+.player-toggle .is-hidden { opacity: 0; transform: scale(0.85); }
 .player-main { display: grid; gap: 0.2rem; min-width: 0; }
 .player-title { font-size: var(--step--1); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-track { display: flex; align-items: center; gap: 0.75rem; }
@@ -1026,11 +1018,11 @@ html:not(.js) .theme-toggle { display: none; }
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--dur-slow) var(--ease);
+    transition: transform var(--dur) var(--ease);
 }
 .release-art img.is-pixelated { image-rendering: pixelated; }
 @media (hover: hover) and (pointer: fine) {
-    .release:hover .release-art img { transform: scale(1.03); }
+    .release:hover .release-art img { transform: scale(1.02); }
 }
 .release-art .badge { position: absolute; top: 0.6rem; left: 0.6rem; }
 .art-placeholder {

@@ -133,8 +133,11 @@
             playIcon.classList.toggle('is-hidden', playing);
             pauseIcon.classList.toggle('is-hidden', !playing);
             toggle.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${clip.title}`);
-            // On the preview, so the drawn waveform fills along with the seek bar.
-            (root.closest('.preview') || root).style.setProperty('--progress', progress);
+            // Each element gets its own value; no parent variable restyling the subtree while it plays.
+            seek.style.setProperty('--progress', progress);
+            const played = root.closest('.preview');
+            const wave = played && played.querySelector('.signal-played');
+            if (wave) wave.style.clipPath = `inset(0 ${(100 - progress * 100).toFixed(2)}% 0 0)`;
             if (document.activeElement !== seek) seek.value = progress * 100;
             const text = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
             time.textContent = text;
@@ -359,17 +362,29 @@
             type: 'button', class: o.lit ? 'filter is-lit' : 'filter', 'data-filter': o.key, 'aria-pressed': String(o.key === 'all')
         }, el('span', null, o.label), ' ', el('span', { class: 'filter-count' }, String(o.count)), el('span', { class: 'sr-only' }, ' projects')));
 
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        function enter(node, index) {
+            if (!node.animate) return;
+            const frames = reduceMotion.matches
+                ? [{ opacity: 0 }, { opacity: 1 }]
+                : [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }];
+            node.__enter = node.animate(frames, {
+                duration: reduceMotion.matches ? 150 : 200,
+                delay: reduceMotion.matches ? 0 : index * 40,
+                easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+                fill: 'backwards'
+            });
+        }
+
         function applyFilter(key) {
             buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
             let shown = 0;
             document.querySelectorAll('#projects [data-area]').forEach(node => {
                 const match = key === 'all' || node.dataset.area === key;
                 // Items coming back fade in on a short stagger; items leaving go at once.
-                if (match && node.hidden) {
-                    node.style.setProperty('--i', Math.min(shown, 6));
-                    node.classList.add('is-entering');
-                    node.addEventListener('animationend', () => node.classList.remove('is-entering'), { once: true });
-                }
+                // WAAPI so a quick second click cancels cleanly instead of leaving a half-run keyframe.
+                if (match && node.hidden) enter(node, Math.min(shown, 6));
+                if (!match && node.__enter) { node.__enter.cancel(); node.__enter = null; }
                 node.hidden = !match;
                 if (match) shown++;
             });
