@@ -5,11 +5,19 @@
    ========================================================================== */
 
 /* IBM Plex Sans: engineered and precise, with enough warmth in the curves
-   to not feel sterile. Variable weight, kept light (400 body, 600 max). */
+   to not feel sterile. Variable weight, kept light (400 body, 600 max).
+   IBM Plex Mono is reserved for data: tech stacks, timecodes, file details. */
 @font-face {
     font-family: 'IBM Plex Sans';
     src: url('assets/fonts/ibm-plex-sans-latin-var.woff2') format('woff2');
     font-weight: 100 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('assets/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
@@ -30,6 +38,7 @@
     --grey-200: #d8dcdf;
     --grey-300: #bec4c9;
     --slate-300: #a3adb6;
+    --slate-400: #78828b;
     --slate-600: #4a545d;
     --slate-700: #36414a;
     --slate-800: #222a31;
@@ -53,12 +62,15 @@
     --color-surface-sunken: var(--grey-200);
     --color-text: var(--slate-900);
     --color-text-muted: var(--slate-600);
-    --color-border: var(--grey-300);
+    --color-border: var(--grey-300);          /* dividers only */
+    --color-border-strong: var(--slate-400);  /* edges of controls: 3:1 or better */
     --color-accent: var(--mint-700);          /* dark enough for text and buttons */
     --color-accent-hover: var(--mint-800);
     --color-on-accent: var(--white);
-    --color-indicator: var(--mint-400);       /* bright mint for lights and rules */
+    --color-indicator: var(--mint-400);       /* a lit indicator: audio work, now playing */
+    --color-indicator-edge: var(--mint-700);  /* keeps a lit dot visible on light grounds */
     --color-indicator-text: var(--mint-700);  /* text set in "indicator" color */
+    --color-unlit: var(--grey-300);           /* an indicator that is off */
     --color-focus: var(--mint-700);
     --color-danger: var(--red-700);
     --color-success: var(--mint-700);
@@ -66,30 +78,35 @@
 
     /* 3. Scale */
     --font: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    --step--2: 0.8125rem;
-    --step--1: 0.875rem;
-    --step-0: 1.0625rem;
-    --step-1: 1.25rem;
-    --step-2: 1.5625rem;
-    --step-3: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
-    --step-4: clamp(3rem, 1.2rem + 8vw, 7.25rem);
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
+    /* Type: one very large size, a few working sizes, nothing in between. */
+    --step--2: 0.8125rem;                                 /* mono data: tags, timecodes */
+    --step--1: 0.875rem;                                  /* meta, notes */
+    --step-0: 1.0625rem;                                  /* body */
+    --step-1: 1.25rem;                                    /* card and sub-section titles */
+    --step-2: clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);  /* lead project title, statements */
+    --step-3: clamp(2rem, 1.5rem + 2vw, 3rem);            /* section titles */
+    --step-4: clamp(2.5rem, 1.1rem + 5.4vw, 5.5rem);      /* the hero line */
+
+    /* Space: 8px rhythm. Gaps inside a section stay well under the gap between sections. */
     --space-1: 0.5rem;
     --space-2: 1rem;
     --space-3: 1.5rem;
-    --space-4: 2.5rem;
-    --space-5: 4rem;
-    --space-6: 6rem;
-    --section-pad: clamp(4rem, 3rem + 5vw, 7rem);
+    --space-4: 2rem;
+    --space-5: 3rem;
+    --space-6: 4.5rem;
+    --section-pad: clamp(4.5rem, 3rem + 6vw, 8rem);
     --gutter: clamp(1rem, 4vw, 2.5rem);
     --measure: 64ch;
 
-    --radius-sm: 6px;
-    --radius: 10px;
-    --radius-lg: 14px;
+    /* Small radii, like machined panel corners. Dots and switches stay round. */
+    --radius-sm: 3px;
+    --radius: 4px;
+    --radius-lg: 6px;
     --radius-pill: 999px;
 
-    --shadow-1: 0 1px 2px color-mix(in srgb, var(--color-shadow) 6%, transparent);
+    /* Shadows only on things that float (menu, dialog, banner). */
     --shadow-2: 0 12px 24px -12px color-mix(in srgb, var(--color-shadow) 25%, transparent);
 
     --dur-fast: 0.15s;
@@ -112,11 +129,14 @@
     --color-text: var(--grey-100);
     --color-text-muted: var(--slate-300);
     --color-border: var(--slate-700);
+    --color-border-strong: var(--slate-400);
     --color-accent: var(--mint-300);
     --color-accent-hover: var(--mint-200);
     --color-on-accent: var(--slate-950);
     --color-indicator: var(--mint-300);
+    --color-indicator-edge: var(--mint-300);
     --color-indicator-text: var(--mint-300);
+    --color-unlit: var(--slate-600);
     --color-focus: var(--mint-300);
     --color-danger: var(--red-200);
     --color-success: var(--mint-300);
@@ -131,11 +151,14 @@
         --color-text: var(--grey-100);
         --color-text-muted: var(--slate-300);
         --color-border: var(--slate-700);
+        --color-border-strong: var(--slate-400);
         --color-accent: var(--mint-300);
         --color-accent-hover: var(--mint-200);
         --color-on-accent: var(--slate-950);
         --color-indicator: var(--mint-300);
+        --color-indicator-edge: var(--mint-300);
         --color-indicator-text: var(--mint-300);
+        --color-unlit: var(--slate-600);
         --color-focus: var(--mint-300);
         --color-danger: var(--red-200);
         --color-success: var(--mint-300);
@@ -238,14 +261,6 @@ main:focus { outline: none; }
 }
 .link-btn:hover { color: var(--color-text); text-decoration-thickness: 2px; }
 
-/* Small muted label, like the printing on a front panel. */
-.panel-label {
-    color: var(--color-text-muted);
-    font-size: var(--step--1);
-    font-weight: 500;
-    letter-spacing: 0.01em;
-}
-
 /* Buttons
    ========================================================================== */
 
@@ -272,7 +287,19 @@ main:focus { outline: none; }
 .btn:active { transform: translateY(1px); }
 .btn .icon { width: 1em; height: 1em; }
 
-.btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+/* Secondary: same shape, outline only. One filled button per view. */
+.btn-secondary {
+    background: transparent;
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+}
+.btn-secondary:hover {
+    background: color-mix(in srgb, var(--color-text) 6%, transparent);
+    border-color: var(--color-text);
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; transform: none; }
 
 /* Header and nav
    ========================================================================== */
@@ -281,9 +308,7 @@ main:focus { outline: none; }
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-    -webkit-backdrop-filter: saturate(1.4) blur(12px);
-    backdrop-filter: saturate(1.4) blur(12px);
+    background: var(--color-bg);
     border-bottom: 1px solid transparent;
     transition: border-color var(--dur);
 }
@@ -297,6 +322,7 @@ main:focus { outline: none; }
 }
 
 .brand {
+    white-space: nowrap;
     margin-right: auto;
     font-size: 1.05rem;
     font-weight: 600;
@@ -324,17 +350,23 @@ main:focus { outline: none; }
     content: '';
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--color-border);
-    transition: background-color 0.25s, box-shadow 0.25s;
+    background: var(--color-unlit);
+    transition: background-color var(--dur), box-shadow var(--dur);
 }
 .nav-links a:hover { color: var(--color-text); background: color-mix(in srgb, var(--color-text) 6%, transparent); }
 .nav-links a[aria-current] { color: var(--color-text); }
 .nav-links a[aria-current]::before {
     background: var(--color-indicator);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-indicator) 25%, transparent), 0 0 8px var(--color-indicator);
+    box-shadow: 0 0 0 1px var(--color-indicator-edge);
 }
 
-.nav-tools { display: flex; gap: 0.25rem; }
+.nav-tools { display: flex; align-items: center; gap: 0.25rem; }
+.nav-resume { min-height: 2.5rem; margin-right: 0.25rem; padding-inline: 0.9rem; font-size: 0.95rem; }
+@media (max-width: 420px) {
+    .nav { gap: var(--space-2); }
+    .nav-resume { padding-inline: 0.75rem; }
+    .nav-resume .icon { display: none; }
+}
 
 .icon-btn {
     display: inline-grid;
@@ -374,7 +406,7 @@ html:not(.js) .theme-toggle { display: none; }
 .menu-toggle[aria-expanded="true"] .menu-bars span:nth-child(2) { opacity: 0; }
 .menu-toggle[aria-expanded="true"] .menu-bars span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
     /* No JS: show the links in a wrapping row under the name. */
     html:not(.js) .nav { flex-wrap: wrap; height: auto; padding-block: 0.75rem; row-gap: 0; }
     html:not(.js) .nav-links { order: 3; flex-wrap: wrap; width: 100%; margin-left: -0.75rem; }
@@ -409,33 +441,30 @@ html:not(.js) .theme-toggle { display: none; }
 /* Hero
    ========================================================================== */
 
-.hero { padding-block: clamp(3rem, 1.5rem + 7vw, 7.5rem) clamp(3.5rem, 2rem + 6vw, 7rem); }
+.hero { padding-block: clamp(3rem, 1.5rem + 6vw, 7rem) clamp(4rem, 2rem + 6vw, 8rem); }
 
 .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--space-5);
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    gap: var(--space-5) var(--space-6);
+    align-items: end;
 }
 
-.hero-name {
+/* The one large thing on the page: who, and what he builds, in one sentence. */
+.hero-title {
+    max-width: 15ch;
     font-size: var(--step-4);
     font-weight: 600;
-    line-height: 0.95;
+    line-height: 1;
     letter-spacing: -0.035em;
-}
-
-.hero-pitch {
-    margin-top: var(--space-3);
-    max-width: 28ch;
-    font-size: clamp(1.35rem, 1rem + 1.4vw, 1.9rem);
-    line-height: 1.3;
+    text-wrap: balance;
 }
 
 .hero-lede {
-    margin-top: var(--space-2);
-    max-width: 52ch;
-    color: var(--color-text-muted);
+    margin-top: var(--space-4);
+    max-width: 46ch;
+    font-size: var(--step-1);
+    line-height: 1.5;
 }
 
 /* Availability, shown as a lit status readout: the hero's one bright spot. */
@@ -453,47 +482,47 @@ html:not(.js) .theme-toggle { display: none; }
     margin-top: 0.55em;
     border-radius: 50%;
     background: var(--color-indicator);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-indicator) 22%, transparent), 0 0 10px var(--color-indicator);
+    box-shadow: 0 0 0 1px var(--color-indicator-edge);
 }
 
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem 1.25rem;
+    gap: 0.75rem;
     margin-top: var(--space-4);
 }
 
-
-.hero-portrait { width: 18rem; }
 .hero-portrait img {
     width: 100%;
     height: auto;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
+    object-position: 50% 30%;
     border-radius: var(--radius-lg);
+    background: var(--color-surface-sunken);
 }
 
-/* The one orchestrated moment: the hero settles in once on load. */
+/* The one orchestrated moment: supporting lines settle in once on load.
+   The headline never waits on an animation. */
 @media (prefers-reduced-motion: no-preference) {
-    .hero-text > *,
+    .hero-text > :not(.hero-title),
     .hero-portrait {
-        animation: settle 0.6s var(--ease) both;
+        animation: settle 0.5s var(--ease) both;
     }
     .hero-text > :nth-child(2) { animation-delay: 60ms; }
     .hero-text > :nth-child(3) { animation-delay: 120ms; }
     .hero-text > :nth-child(4) { animation-delay: 180ms; }
-    .hero-text > :nth-child(5) { animation-delay: 240ms; }
-    .hero-portrait { animation-delay: 120ms; }
+    .hero-portrait { animation-delay: 60ms; }
     @keyframes settle {
         from { opacity: 0; transform: translateY(8px); }
     }
 }
 
 @media (max-width: 860px) {
-    .hero-grid { grid-template-columns: 1fr; gap: var(--space-3); }
-    .hero-portrait { order: -1; width: 8rem; }
-    .hero-portrait img { border-radius: var(--radius); }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+    .hero-portrait { order: -1; width: 7rem; }
+    .hero-portrait img { aspect-ratio: 1; border-radius: var(--radius); }
 }
 
 @media (max-width: 480px) {
@@ -513,15 +542,6 @@ html:not(.js) .theme-toggle { display: none; }
     font-weight: 600;
     line-height: 1.05;
     letter-spacing: -0.025em;
-}
-.section-title::after {
-    content: '';
-    display: block;
-    width: 2.5rem;
-    height: 3px;
-    margin-top: 0.8rem;
-    border-radius: 2px;
-    background: var(--color-indicator);
 }
 .section-intro {
     max-width: 52ch;
@@ -615,12 +635,12 @@ html:not(.js) .theme-toggle { display: none; }
     gap: 0.35rem;
 }
 .tag {
-    padding: 0.1rem 0.55rem;
+    padding: 0.15rem 0.5rem;
     border-radius: var(--radius-sm);
     background: color-mix(in srgb, var(--color-text) 7%, transparent);
     color: var(--color-text-muted);
+    font-family: var(--font-mono);
     font-size: var(--step--2);
-    font-weight: 500;
     white-space: nowrap;
 }
 
@@ -629,6 +649,21 @@ html:not(.js) .theme-toggle { display: none; }
     flex-wrap: wrap;
     gap: 0.5rem;
 }
+
+/* External link set as text, for compact lists. */
+.text-link-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.75rem;
+    color: var(--color-accent);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+}
+.text-link-external:hover { color: var(--color-accent-hover); text-decoration-thickness: 2px; }
+.text-link-external .icon { width: 0.9em; height: 0.9em; }
 
 /* Status pill with an indicator light, matching the nav lights. */
 .badge {
@@ -649,36 +684,219 @@ html:not(.js) .theme-toggle { display: none; }
     width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--color-indicator);
-    box-shadow: 0 0 6px var(--color-indicator);
+    box-shadow: 0 0 0 1px var(--color-indicator-edge);
 }
 
-/* Projects: a list of rows, name on the left, details on the right
+/* Projects: lead row, featured rows with a preview, then a compact list
    ========================================================================== */
 
-.projects { border-top: 1px solid var(--color-border); }
+.section-head-split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+}
+.section-head-split > div:first-child { max-width: 40rem; }
+
+/* Area filter: toggle buttons. A lit dot marks the audio + software area. */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+}
+.filter.is-lit::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-indicator);
+    box-shadow: 0 0 0 1px var(--color-indicator-edge);
+}
+.filter:hover { border-color: var(--color-text); }
+.filter:active { transform: translateY(1px); }
+.filter[aria-pressed="true"] { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg); }
+.filter-count { font-family: var(--font-mono); font-size: var(--step--2); opacity: 0.75; }
+
+.projects { display: grid; gap: var(--space-6); }
 
 .project {
     display: grid;
-    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
-    gap: var(--space-2) var(--space-4);
-    padding-block: var(--space-4);
-    border-bottom: 1px solid var(--color-border);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-3) var(--space-5);
+    align-items: start;
 }
-
-.project-head { display: grid; gap: 0.35rem; align-content: start; justify-items: start; }
-.project-title { font-size: var(--step-1); font-weight: 600; line-height: 1.2; }
-.project-meta { color: var(--color-text-muted); font-size: var(--step--1); }
-.project-head .badge { margin-top: 0.35rem; }
+.project.is-lead { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 
 .project-body { display: grid; gap: var(--space-2); justify-items: start; max-width: var(--measure); }
+.project-body > .area + .project-title { margin-top: -0.5rem; }
+.project-title { font-size: var(--step-2); font-weight: 600; line-height: 1.15; letter-spacing: -0.015em; }
+.project.is-lead .project-title { font-size: var(--step-3); letter-spacing: -0.025em; }
+.project-meta { margin-top: -0.75rem; color: var(--color-text-muted); font-size: var(--step--1); }
 .project-summary { line-height: 1.55; }
+.project.is-lead .project-summary { font-size: var(--step-1); line-height: 1.5; }
 
-.project.is-featured .project-title { font-size: var(--step-2); letter-spacing: -0.015em; }
-.project.is-featured .project-summary { font-size: 1.125rem; }
-
-@media (max-width: 700px) {
-    .project { grid-template-columns: 1fr; padding-block: var(--space-3); }
+/* Area readout: a small indicator light plus its name. */
+.area {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+    font-weight: 500;
 }
+.area::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--color-unlit);
+}
+.area.is-lit { color: var(--color-indicator-text); }
+.area.is-lit::before { background: var(--color-indicator); box-shadow: 0 0 0 1px var(--color-indicator-edge); }
+
+/* Preview: screenshot, player, or a placeholder until one exists. */
+.preview {
+    position: relative;
+    display: grid;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-sunken);
+}
+.preview img { width: 100%; height: 100%; object-fit: cover; }
+.preview-empty { place-items: center; padding: var(--space-3); }
+.preview-audio { align-content: end; }
+.preview .signal {
+    position: absolute;
+    top: 14%;
+    left: 6%;
+    width: 88%;
+    height: 50%;
+    color: var(--color-indicator-text);
+}
+.preview-stack {
+    max-width: 22ch;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    line-height: 1.7;
+    text-align: center;
+}
+.preview-note {
+    position: absolute;
+    left: var(--space-2);
+    bottom: var(--space-2);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+}
+.preview-video { place-items: center; }
+.preview-video .embed.is-loaded { position: absolute; inset: 0; }
+.preview-video iframe { width: 100%; height: 100%; border: 0; }
+
+.projects-empty { display: grid; justify-items: start; gap: var(--space-2); color: var(--color-text-muted); }
+
+/* More projects: compact rows, no previews. */
+.section > .container > .projects-more { margin-top: var(--space-6); }
+.projects-more .sub-heading { margin-bottom: var(--space-2); }
+.project-items { display: grid; }
+.project-item {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+    gap: var(--space-1) var(--space-5);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--color-border);
+}
+.project-item-head { display: grid; gap: 0.35rem; align-content: start; justify-items: start; }
+.project-item-head .project-meta { margin-top: 0; }
+.project-item-title { font-size: var(--step-1); font-weight: 600; line-height: 1.2; }
+.project-item-body { display: grid; gap: var(--space-2); justify-items: start; max-width: var(--measure); }
+
+@media (max-width: 860px) {
+    .project,
+    .project.is-lead { grid-template-columns: minmax(0, 1fr); }
+    .projects { gap: var(--space-5); }
+    .project-item { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Audio player: our controls over a native <audio>. The progress line is the motif. */
+.player-wrap { position: relative; display: grid; gap: var(--space-1); padding: var(--space-2); }
+.player {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+}
+.player-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem; height: 2.75rem;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    cursor: pointer;
+    transition: background-color var(--dur-fast), transform var(--dur-fast) var(--ease);
+}
+.player-toggle:hover { background: var(--color-accent-hover); }
+.player-toggle:active { transform: scale(0.96); }
+.player-toggle .icon { width: 1.1rem; height: 1.1rem; }
+.player-toggle .is-hidden { display: none; }
+.player-main { display: grid; gap: 0.2rem; min-width: 0; }
+.player-title { font-size: var(--step--1); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-track { display: flex; align-items: center; gap: 0.75rem; }
+.player-time { flex: none; color: var(--color-text-muted); font-family: var(--font-mono); font-size: var(--step--2); font-variant-numeric: tabular-nums; }
+.player.is-error .player-time { color: var(--color-danger); }
+
+/* Seek bar: a native range drawn as a thin line that fills as it plays. */
+.player-seek {
+    --fill: calc(var(--progress, 0) * 100%);
+    flex: 1;
+    min-width: 0;
+    height: 1.5rem;
+    margin: 0;
+    background: transparent;
+    appearance: none;
+    cursor: pointer;
+}
+.player-seek:disabled { cursor: default; }
+.player-seek::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(to right, var(--color-indicator-text) var(--fill), var(--color-border-strong) var(--fill));
+}
+.player-seek::-moz-range-track { height: 2px; background: var(--color-border-strong); }
+.player-seek::-moz-range-progress { height: 2px; background: var(--color-indicator-text); }
+.player-seek::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px; height: 12px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: var(--color-text);
+}
+.player-seek::-moz-range-thumb { width: 12px; height: 12px; border: 0; border-radius: 50%; background: var(--color-text); }
+.player-seek:disabled::-webkit-slider-thumb { background: var(--color-border-strong); }
+.player-seek:disabled::-moz-range-thumb { background: var(--color-border-strong); }
+.player-seek:focus-visible { outline-offset: 2px; }
+.player-transcript summary { cursor: pointer; font-size: var(--step--1); font-weight: 500; }
+.player-transcript p { margin-top: 0.4rem; color: var(--color-text-muted); font-size: var(--step--1); }
+
+/* Click-to-load embeds (Spotify, YouTube). */
+.embed { display: grid; justify-items: start; gap: 0.35rem; width: 100%; }
+.embed-note { color: var(--color-text-muted); font-size: var(--step--2); }
+.embed iframe { display: block; width: 100%; border: 0; border-radius: var(--radius); }
+.embed-spotify iframe { height: 152px; }
 
 /* Music
    ========================================================================== */
@@ -725,7 +943,9 @@ html:not(.js) .theme-toggle { display: none; }
 .release-meta { color: var(--color-text-muted); font-size: var(--step--1); line-height: 1.45; }
 .release-body .roles { margin-top: 0.35rem; }
 /* Pinned to the card bottom so buttons line up across a row. */
-.release-body .item-links { margin-top: auto; padding-top: var(--space-1); }
+.release-actions { display: grid; gap: var(--space-2); width: 100%; margin-top: auto; padding-top: var(--space-1); }
+.release-actions:empty { display: none; }
+.release-actions .btn { width: 100%; }
 
 .roles { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .role {
@@ -818,13 +1038,13 @@ html:not(.js) .theme-toggle { display: none; }
     width: 100%;
     padding: 0.75rem 0.9rem;
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-sm);
     transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
 }
 .field textarea { min-height: 8rem; resize: vertical; }
 .field input:hover,
-.field textarea:hover { border-color: var(--color-text-muted); }
+.field textarea:hover { border-color: var(--color-text); }
 .field input:focus-visible,
 .field textarea:focus-visible {
     outline: none;
@@ -1068,7 +1288,7 @@ html:not(.js) .theme-toggle { display: none; }
     flex: none;
     width: 2.75rem; height: 1.5rem;
     margin: 0;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-pill);
     background: var(--color-surface-sunken);
     cursor: pointer;

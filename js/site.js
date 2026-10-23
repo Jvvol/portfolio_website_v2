@@ -45,7 +45,7 @@
     // ------------------------------------------------------------------------
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
-    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const mobileQuery = window.matchMedia('(max-width: 900px)');
 
     function setMenu(open) {
         navLinks.classList.toggle('is-open', open);

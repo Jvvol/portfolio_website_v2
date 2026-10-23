@@ -88,36 +88,256 @@
         return el('span', { class: 'badge' }, text);
     }
 
-    // Projects: one row each, name on the left, details on the right (text only, no screenshots)
-    // ------------------------------------------------------------------------
-    function linkList(items) {
-        return items.length > 0 && el('div', { class: 'item-links' }, items.map(l => externalLink(l.href, l.label, 'btn')));
+    function linkList(items, className) {
+        return items.length > 0 && el('div', { class: 'item-links' }, items.map(l => externalLink(l.href, l.label, className || 'btn btn-secondary')));
     }
 
-    function projectRow(p) {
+    function slug(text) {
+        return String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
+    // Audio player for self-hosted clips: native <audio> underneath, our own controls on top.
+    // Nothing loads until Play (preload="none"); only one player sounds at a time.
+    // ------------------------------------------------------------------------
+    const players = new Set();
+
+    function formatTime(seconds) {
+        if (!Number.isFinite(seconds)) return '0:00';
+        const s = Math.max(0, Math.floor(seconds));
+        return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    }
+
+    function audioPlayer(clip) {
+        const audio = el('audio', { preload: 'none', src: clip.src });
+        const playIcon = icon('play');
+        const pauseIcon = icon('pause');
+        pauseIcon.classList.add('is-hidden');
+        const toggle = el('button', { type: 'button', class: 'player-toggle', 'aria-label': `Play ${clip.title}` }, playIcon, pauseIcon);
+        const seek = el('input', {
+            type: 'range', class: 'player-seek', min: 0, max: 100, step: 0.1, value: 0,
+            'aria-label': `Seek in ${clip.title}`, 'aria-valuetext': '0:00', disabled: true
+        });
+        const time = el('span', { class: 'player-time' }, '0:00');
+        const root = el('div', { class: 'player' },
+            toggle,
+            el('div', { class: 'player-main' },
+                el('p', { class: 'player-title' }, clip.title),
+                el('div', { class: 'player-track' }, seek, time)
+            ),
+            audio
+        );
+
+        function render() {
+            const playing = !audio.paused;
+            const duration = audio.duration;
+            const progress = Number.isFinite(duration) && duration > 0 ? audio.currentTime / duration : 0;
+            root.classList.toggle('is-playing', playing);
+            playIcon.classList.toggle('is-hidden', playing);
+            pauseIcon.classList.toggle('is-hidden', !playing);
+            toggle.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${clip.title}`);
+            root.style.setProperty('--progress', progress);
+            if (document.activeElement !== seek) seek.value = progress * 100;
+            const text = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
+            time.textContent = text;
+            seek.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(duration)}`);
+        }
+
+        toggle.addEventListener('click', () => {
+            if (audio.paused) {
+                players.forEach(other => { if (other !== audio) other.pause(); });
+                audio.play().catch(() => root.classList.add('is-error'));
+            } else {
+                audio.pause();
+            }
+        });
+        seek.addEventListener('input', () => {
+            if (Number.isFinite(audio.duration)) audio.currentTime = (seek.value / 100) * audio.duration;
+        });
+        audio.addEventListener('loadedmetadata', () => { seek.disabled = false; render(); });
+        audio.addEventListener('waiting', () => root.classList.add('is-loading'));
+        audio.addEventListener('playing', () => root.classList.remove('is-loading'));
+        audio.addEventListener('error', () => {
+            root.classList.add('is-error');
+            time.textContent = 'Couldn’t load audio';
+        });
+        ['play', 'pause', 'timeupdate', 'ended', 'durationchange'].forEach(type => audio.addEventListener(type, render));
+        players.add(audio);
+
+        const transcript = clip.transcript && el('details', { class: 'player-transcript' },
+            el('summary', null, 'What you’re hearing'), el('p', null, clip.transcript));
+        return el('div', { class: 'player-wrap' }, root, transcript);
+    }
+
+    // Click-to-load embeds: nothing from Spotify or YouTube loads until the visitor asks.
+    // ------------------------------------------------------------------------
+    function embedSrc(embed) {
+        if (embed.provider === 'spotify') return `https://open.spotify.com/embed/${embed.kind === 'album' ? 'album' : 'track'}/${encodeURIComponent(embed.id)}`;
+        if (embed.provider === 'youtube') return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(embed.id)}`;
+        return null;
+    }
+
+    const PROVIDER_NAMES = { spotify: 'Spotify', youtube: 'YouTube' };
+
+    function embedLoader(embed, title) {
+        const src = embedSrc(embed);
+        if (!src) return null;
+        const provider = PROVIDER_NAMES[embed.provider];
+        const button = el('button', { type: 'button', class: 'btn btn-secondary embed-load' },
+            icon('play'), el('span', null, 'Play here'));
+        const note = el('p', { class: 'embed-note' }, `Loads the ${provider} player`);
+        const slot = el('div', { class: `embed embed-${embed.provider}` }, button, note);
+        button.addEventListener('click', () => {
+            const frame = el('iframe', {
+                src: embed.provider === 'youtube' ? `${src}?autoplay=1` : src,
+                title: `${title} on ${provider}`,
+                loading: 'lazy',
+                allow: 'autoplay; clipboard-write; encrypted-media; picture-in-picture',
+                allowfullscreen: embed.provider === 'youtube'
+            });
+            slot.replaceChildren(frame);
+            slot.classList.add('is-loaded');
+            frame.focus();
+        });
+        return slot;
+    }
+
+    // Projects: featured rows with a preview, then a compact list, with an area filter
+    // ------------------------------------------------------------------------
+    const AREAS = {
+        both: { label: 'Audio + software', lit: true },
+        audio: { label: 'Audio', lit: true },
+        software: { label: 'Software', lit: false }
+    };
+
+    function areaOf(p) {
+        return AREAS[p.area] ? p.area : 'software';
+    }
+
+    function areaLabel(p) {
+        const area = AREAS[areaOf(p)];
+        return el('p', { class: area.lit ? 'area is-lit' : 'area' }, area.label);
+    }
+
+    function tagList(tags) {
+        return el('ul', { class: 'tags', 'aria-label': 'Built with' }, (tags || []).map(t => el('li', { class: 'tag' }, t)));
+    }
+
+    // Preview slot. Until real media exists, a quiet placeholder says so plainly.
+    function preview(p) {
+        const m = p.media;
+        if (m && m.type === 'image' && m.src) {
+            return el('figure', { class: 'preview' },
+                el('img', { src: m.src, alt: m.alt || '', loading: 'lazy', decoding: 'async', width: 800, height: 500 }));
+        }
+        if (m && m.type === 'audio' && m.src) {
+            return el('div', { class: 'preview preview-audio' }, signalLine(p.title), audioPlayer({ title: m.title || `${p.title} demo`, src: m.src, transcript: m.transcript }));
+        }
+        if (m && m.type === 'youtube' && m.id) {
+            return el('div', { class: 'preview preview-video' }, embedLoader({ provider: 'youtube', id: m.id }, m.title || p.title));
+        }
+        const lit = AREAS[areaOf(p)].lit;
+        return el('div', { class: 'preview preview-empty', 'aria-hidden': 'true' },
+            lit ? signalLine(p.title) : el('span', { class: 'preview-stack' }, (p.tags || []).join(' · ')),
+            el('span', { class: 'preview-note' }, lit ? 'Audio demo coming' : 'Screenshot coming'));
+    }
+
+    // A drawn waveform overview: mirrored bars, shaped by the title so each project gets its own.
+    // Decorative only; a real demo replaces it.
+    function signalLine(seedText) {
+        let seed = 0;
+        for (const ch of String(seedText)) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+        const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+        const bars = 56, pitch = 6, width = bars * pitch, mid = 50;
+        let level = 0.5, d = '';
+        for (let i = 0; i < bars; i++) {
+            level += (rand() - 0.5) * 0.35;                       // slow random walk = phrase dynamics
+            level = Math.min(1, Math.max(0.2, level));
+            const swell = 0.35 + 0.65 * Math.sin(((i + 0.5) / bars) * Math.PI);
+            const h = Math.max(2, 44 * level * swell * (0.8 + rand() * 0.2));
+            const x = i * pitch + pitch / 2;
+            d += `M${x} ${(mid - h).toFixed(1)}V${(mid + h).toFixed(1)}`;
+        }
+        const s = svg('svg', { class: 'signal', viewBox: `0 0 ${width} 100`, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
+        s.append(svg('path', { d, fill: 'none', stroke: 'currentColor', 'stroke-width': '3', 'stroke-linecap': 'round' }));
+        return s;
+    }
+
+    function projectRow(p, index) {
         const meta = [p.context, p.year].filter(Boolean).join(', ');
         const highlights = (p.highlights || []).filter(Boolean);
         const projectLinks = (p.links || []).filter(l => l && l.href);
-        const featured = Boolean(p.featured);
 
-        return el('article', { class: featured ? 'project is-featured' : 'project' },
-            el('header', { class: 'project-head' },
+        return el('article', { class: index === 0 ? 'project is-lead' : 'project', id: slug(p.title), 'data-area': areaOf(p) },
+            preview(p),
+            el('div', { class: 'project-body' },
+                areaLabel(p),
                 el('h3', { class: 'project-title' }, p.title),
                 meta && el('p', { class: 'project-meta' }, meta),
-                featured && badge('Featured')
-            ),
-            el('div', { class: 'project-body' },
                 el('p', { class: 'project-summary' }, p.summary),
                 highlights.length > 0 && el('ul', { class: 'bullets' }, highlights.map(h => el('li', null, h))),
-                el('ul', { class: 'tags', 'aria-label': 'Built with' }, (p.tags || []).map(t => el('li', { class: 'tag' }, t))),
+                tagList(p.tags),
                 linkList(projectLinks)
             )
         );
     }
 
-    const projectsList = document.getElementById('projects-list');
-    if (projectsList && Array.isArray(window.PROJECTS)) {
-        projectsList.append(...window.PROJECTS.map(projectRow));
+    function projectItem(p) {
+        const meta = [p.context, p.year].filter(Boolean).join(', ');
+        const projectLinks = (p.links || []).filter(l => l && l.href);
+        return el('li', { class: 'project-item', id: slug(p.title), 'data-area': areaOf(p) },
+            el('div', { class: 'project-item-head' },
+                el('h4', { class: 'project-item-title' }, p.title),
+                meta && el('p', { class: 'project-meta' }, meta),
+                areaLabel(p)
+            ),
+            el('div', { class: 'project-item-body' },
+                el('p', null, p.summary),
+                tagList(p.tags),
+                linkList(projectLinks, 'text-link-external')
+            )
+        );
+    }
+
+    const projects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
+    const featuredList = document.getElementById('projects-list');
+    const moreList = document.getElementById('projects-more');
+    const moreBlock = document.getElementById('projects-more-block');
+    if (featuredList) featuredList.append(...projects.filter(p => p.featured).map(projectRow));
+    if (moreList) moreList.append(...projects.filter(p => !p.featured).map(projectItem));
+    if (moreBlock && moreList && moreList.children.length === 0) moreBlock.hidden = true;
+
+    // Filter: a toggle-button group. Hidden without JS, where every project shows.
+    const filterBar = document.getElementById('project-filter');
+    const filterStatus = document.getElementById('project-filter-status');
+    const filterEmpty = document.getElementById('projects-empty');
+    if (filterBar && projects.length > 0) {
+        const present = Object.keys(AREAS).filter(key => projects.some(p => areaOf(p) === key));
+        const options = [{ key: 'all', label: 'All', count: projects.length }]
+            .concat(present.map(key => ({ key, label: AREAS[key].label, lit: AREAS[key].lit, count: projects.filter(p => areaOf(p) === key).length })));
+
+        const buttons = options.map(o => el('button', {
+            type: 'button', class: o.lit ? 'filter is-lit' : 'filter', 'data-filter': o.key, 'aria-pressed': String(o.key === 'all')
+        }, el('span', null, o.label), el('span', { class: 'filter-count' }, String(o.count))));
+
+        function applyFilter(key) {
+            buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
+            let shown = 0;
+            document.querySelectorAll('#projects [data-area]').forEach(node => {
+                const match = key === 'all' || node.dataset.area === key;
+                node.hidden = !match;
+                if (match) shown++;
+            });
+            if (moreBlock && moreList) moreBlock.hidden = ![...moreList.children].some(n => !n.hidden);
+            if (featuredList) featuredList.hidden = ![...featuredList.children].some(n => !n.hidden);
+            if (filterEmpty) filterEmpty.hidden = shown > 0;
+            if (filterStatus) filterStatus.textContent = `Showing ${shown} of ${projects.length} projects`;
+        }
+
+        buttons.forEach(b => b.addEventListener('click', () => applyFilter(b.dataset.filter)));
+        filterBar.append(...buttons);
+        filterBar.hidden = false;
+        const reset = document.getElementById('projects-empty-reset');
+        if (reset) reset.addEventListener('click', () => { applyFilter('all'); buttons[0].focus(); });
     }
 
     // Music
@@ -151,7 +371,10 @@
                 el('h4', { class: 'release-title' }, t.title),
                 el('p', { class: 'release-meta' }, t.artist, t.artist && kind && el('br'), kind),
                 roleList(t.roles, 'My role'),
-                hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
+                el('div', { class: 'release-actions' },
+                    t.embed && embedLoader(t.embed, `${t.title} by ${t.artist}`),
+                    hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
+                )
             )
         );
     }

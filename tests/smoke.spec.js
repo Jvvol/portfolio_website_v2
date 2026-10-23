@@ -7,10 +7,14 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/index.html');
 });
 
-test('projects render', async ({ page }) => {
-    const cards = page.locator('#projects-list article');
-    await expect(cards).toHaveCount(7);
-    await expect(cards.first()).toContainText('Featured');
+test('projects render: featured rows with previews, the rest in a compact list', async ({ page }) => {
+    const rows = page.locator('#projects-list article');
+    await expect(rows).toHaveCount(5);
+    await expect(rows.first()).toHaveClass(/is-lead/);
+    await expect(rows.first()).toContainText('Etherius');
+    await expect(rows.first().locator('.area')).toHaveText('Audio + software');
+    await expect(page.locator('#projects-list .preview')).toHaveCount(5);
+    await expect(page.locator('#projects-more > li')).toHaveCount(2);
 });
 
 test('music renders', async ({ page }) => {

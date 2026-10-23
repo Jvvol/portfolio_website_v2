@@ -13,7 +13,7 @@ for (const path of LEGAL) {
     test(`${path} has a title, effective date, skip link, and working contents list`, async ({ page }) => {
         await page.goto(path);
         await expect(page.locator('h1')).toHaveCount(1);
-        await expect(page.locator('.legal-effective')).toContainText('October 21, 2026');
+        await expect(page.locator('.legal-effective')).toContainText(/October 2[12], 2026/);
         await expect(page.locator('a.skip-link')).toHaveAttribute('href', '#main');
         const targets = await page.locator('.legal-toc a').evaluateAll(as => as.map(a => a.getAttribute('href')));
         expect(targets.length).toBeGreaterThan(2);

@@ -31,7 +31,7 @@
     <meta name="theme-color" content="#1a2026" media="(prefers-color-scheme: dark)">
 
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://open.spotify.com https://www.youtube-nocookie.com; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -57,6 +57,8 @@
         <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></g></symbol>
         <symbol id="i-external" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></g></symbol>
         <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></g></symbol>
         <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
     </svg>
 
@@ -73,6 +75,10 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-tools">
+                <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary nav-resume">
+                    <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+                    Resume PDF
+                </a>
                 <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
                     <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
                     <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
@@ -88,24 +94,18 @@
         <section class="hero" aria-labelledby="hero-title">
             <div class="container hero-grid">
                 <div class="hero-text">
-                    <h1 id="hero-title" class="hero-name">Jacob Wolfe</h1>
-                    <p class="hero-pitch">I build software and audio tools, and I record, produce, and play music.</p>
-                    <p class="hero-lede">Computer Science senior at West Virginia University with a minor in Music Technology, graduating May&nbsp;2027.</p>
+                    <h1 id="hero-title" class="hero-title">Jacob Wolfe builds software and audio&nbsp;tools.</h1>
+                    <p class="hero-lede">Computer Science senior at West Virginia University with a minor in Music Technology, graduating May&nbsp;2027. I also record, produce, and play music.</p>
                     <p class="status"><span class="status-light" aria-hidden="true"></span>Looking for a software job or internship for summer 2027</p>
                     <div class="hero-actions">
                         <a href="#projects" class="btn">View projects</a>
-                        <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn" download>
-                            <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
-                            Download resume
-                        </a>
-                        <a href="#music" class="btn">Listen to music</a>
-                        <a href="#contact" class="btn">Contact</a>
+                        <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary">Resume (PDF)</a>
                     </div>
                 </div>
                 <figure class="hero-portrait">
                     <img src="assets/img/jacob-wolfe-480.jpg"
                          srcset="assets/img/jacob-wolfe-480.jpg 480w, assets/img/jacob-wolfe-960.jpg 960w"
-                         sizes="(min-width: 900px) 320px, 200px"
+                         sizes="(min-width: 861px) 352px, 112px"
                          width="480" height="480"
                          alt="Portrait of Jacob Wolfe"
                          fetchpriority="high">
@@ -155,11 +155,23 @@
 
         <section id="projects" class="section" aria-labelledby="projects-title">
             <div class="container">
-                <div class="section-head">
-                    <h2 id="projects-title" class="section-title">Projects</h2>
-                    <p class="section-intro">Class projects, a hackathon build, and things I’ve made on my own.</p>
+                <div class="section-head section-head-split">
+                    <div>
+                        <h2 id="projects-title" class="section-title">Projects</h2>
+                        <p class="section-intro">Audio plugins I’ve written in C++, class and capstone projects, and a hackathon build. A lit light marks work that’s both audio and software.</p>
+                    </div>
+                    <div class="filter-bar" id="project-filter" role="group" aria-label="Filter projects by area" hidden></div>
                 </div>
+                <p class="sr-only" id="project-filter-status" role="status" aria-live="polite"></p>
                 <div class="projects" id="projects-list"></div>
+                <div class="projects-empty" id="projects-empty" hidden>
+                    <p>No projects in this area yet.</p>
+                    <button type="button" class="btn btn-secondary" id="projects-empty-reset">Show all projects</button>
+                </div>
+                <div class="projects-more" id="projects-more-block">
+                    <h3 class="sub-heading">More projects</h3>
+                    <ul class="project-items" id="projects-more"></ul>
+                </div>
                 <noscript><p class="noscript">Turn on JavaScript to see project details, or browse my code on <a href="https://github.com/Jvvol">GitHub</a>.</p></noscript>
             </div>
         </section>

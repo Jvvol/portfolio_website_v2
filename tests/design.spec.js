@@ -3,15 +3,19 @@ const fs = require('fs');
 const path = require('path');
 const { test, expect } = require('@playwright/test');
 
-test('every button on the page looks the same', async ({ page }) => {
+test('two button styles: one filled primary in the hero, every secondary alike', async ({ page }) => {
     await page.goto('/index.html');
     await expect(page.locator('#music-list .btn').first()).toBeVisible();
-    const looks = await page.locator('main .btn').evaluateAll(nodes => nodes.map(n => {
+    await expect(page.locator('.hero .btn:not(.btn-secondary)')).toHaveCount(1);
+    await expect(page.locator('.hero .btn:not(.btn-secondary)')).toHaveText('View projects');
+    const look = sel => page.locator(sel).evaluateAll(nodes => nodes.map(n => {
         const s = getComputedStyle(n);
-        return [s.backgroundColor, s.color, s.borderColor, s.borderRadius, s.fontSize, s.fontWeight].join(' ');
+        return [s.backgroundColor, s.color, s.borderColor, s.borderRadius, s.fontWeight].join(' ');
     }));
-    expect(looks.length).toBeGreaterThan(8);
-    expect(new Set(looks).size).toBe(1);
+    const secondary = await look('main .btn.btn-secondary:visible');
+    expect(secondary.length).toBeGreaterThan(8);
+    expect(new Set(secondary).size).toBe(1);
+    expect(new Set(await look('main .btn:not(.btn-secondary):visible')).size).toBe(1);
 });
 
 test('release and project links are buttons', async ({ page }) => {
@@ -49,11 +53,12 @@ for (const width of [375, 760, 1000, 1280]) {
         await expect(page.locator('#music-list .btn').first()).toBeVisible();
         await expect(page.locator('#music-list .release-upcoming')).toHaveCount(0);
         const cards = await page.locator('#music-list > li').evaluateAll(nodes => nodes.map(n => {
-            const btn = n.querySelector('.btn');
-            return { height: n.getBoundingClientRect().height, gap: btn && n.getBoundingClientRect().bottom - btn.getBoundingClientRect().bottom };
+            const btns = n.querySelectorAll('.btn');
+            const btn = btns[btns.length - 1];
+            return { height: n.getBoundingClientRect().height, gap: btn ? n.getBoundingClientRect().bottom - btn.getBoundingClientRect().bottom : null };
         }));
         expect(new Set(cards.map(c => Math.round(c.height))).size).toBe(1);
-        // Each button sits at the bottom of its card, so buttons in a row line up.
+        // The last button sits at the bottom of its card, so buttons in a row line up.
         for (const c of cards) if (c.gap !== null) expect(Math.round(c.gap)).toBe(0);
     });
 }

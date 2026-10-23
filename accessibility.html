@@ -35,6 +35,7 @@
 <body>
     <svg width="0" height="0" class="sr-only" aria-hidden="true" focusable="false">
         <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+        <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></g></symbol>
         <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
     </svg>
 
@@ -51,6 +52,10 @@
                 <li><a href="index.html#contact">Contact</a></li>
             </ul>
             <div class="nav-tools">
+                <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn btn-secondary nav-resume">
+                    <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
+                    Resume PDF
+                </a>
                 <button type="button" class="icon-btn theme-toggle" id="theme-toggle" aria-label="Switch to dark theme">
                     <svg class="icon icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
                     <svg class="icon icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
@@ -66,7 +71,7 @@
         <article class="legal container" aria-labelledby="page-title">
             <header class="legal-head">
                 <h1 id="page-title" class="section-title">Accessibility Statement</h1>
-                <p class="legal-effective">Effective October 21, 2026</p>
+                <p class="legal-effective">Effective October 22, 2026</p>
                 <p class="legal-intro">This is a plain-language policy for a personal portfolio site. I want everyone to be able to use it, including people who use a keyboard, a screen reader, zoom, or other assistive technology.</p>
             </header>
             <nav class="legal-toc" aria-labelledby="toc-title">
@@ -107,6 +112,7 @@
                     <ul class="bullets">
                         <li><strong>Resume downloads.</strong> The PDF and Word versions of my resume haven’t been fully checked for accessibility. The same information is on the page in the Resume section, and I can send it in another format on request.</li>
                         <li><strong>Other sites.</strong> Links to Spotify, Instagram, LinkedIn, GitHub, and itch.io lead to sites I don’t control.</li>
+                        <li><strong>Embedded players.</strong> The Spotify and YouTube players that load when you press “Play here” are made by those companies, and I can’t change how they work with assistive technology. Each release also links straight to the service.</li>
                         <li><strong>Assistive technology testing.</strong> I haven’t yet tested with every screen reader. If something doesn’t work with yours, please tell me.</li>
                     </ul>
                 </section>
