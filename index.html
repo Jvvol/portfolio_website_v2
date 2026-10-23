@@ -68,9 +68,9 @@
         <nav class="nav container" aria-label="Main">
             <a href="#top" class="brand" aria-label="Jacob Wolfe, back to top">Jacob Wolfe</a>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#music">Music</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#resume">Resume</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -113,46 +113,6 @@
             </div>
         </section>
 
-        <section id="about" class="section" aria-labelledby="about-title">
-            <div class="container">
-                <div class="section-head"><h2 id="about-title" class="section-title">About</h2></div>
-                <div class="about-grid">
-                    <div class="about-story prose">
-                        <p>I’m a computer science senior at West Virginia University with a minor in music technology. I like working on both software and audio, and my favorite projects are the ones that use both.</p>
-                        <p>For software, I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL. Most of my projects have been team projects run in Agile sprints. One was a 24-hour hackathon, and for another we gave a live demo to a panel of judges. Right now I’m building a web portal with Rails and AWS for my senior capstone.</p>
-                        <p>For music, I use Reaper for my own recording and production. I learned Pro Tools and studio recording in my music tech classes. I scored my friend Owen’s game God Stomp, and I’m writing the soundtrack for his next one, Scratch Fever, which he plans to release on Steam. I also play in three bands: <a href="#bands" class="text-link">LVNARY, Bulge, and Koal</a>.</p>
-                        <p>My audio plugins combine the two. <a href="#projects" class="text-link">Etherius</a> is a delay I wrote in C++ with JUCE, based on how analog bucket-brigade delays work, and Granulus is a granular texture processor.</p>
-                        <p>The last two summers I taught programming and robotics to middle and high school students at iD Tech at Carnegie Mellon University. For summer 2027 I’m looking for a software job or internship.</p>
-                    </div>
-                    <dl class="spec-sheet">
-                        <div><dt>Studying</dt><dd>B.S. Computer Science, minor in Music Technology, West Virginia University</dd></div>
-                        <div><dt>Graduating</dt><dd>May 2027</dd></div>
-                        <div><dt>Based in</dt><dd>Morgantown, WV</dd></div>
-                        <div><dt>Looking for</dt><dd>Software job or internship, summer 2027</dd></div>
-                    </dl>
-                </div>
-
-                <div class="skills">
-                    <div class="skill-group">
-                        <h3>Software</h3>
-                        <dl class="skill-list">
-                            <div><dt>Languages</dt><dd>Java, C++, C, TypeScript, JavaScript, Ruby, Dart, PHP, SQL, HTML/CSS</dd></div>
-                            <div><dt>Backend and data</dt><dd>Ruby on Rails, Node.js, Express, REST APIs, PostgreSQL, MySQL, Firebase, Neon, schema design</dd></div>
-                            <div><dt>Frameworks and tools</dt><dd>React, Flutter, AWS, Azure, Docker, Git/GitHub, Agile/Scrum, VS Code, Visual Studio, WSL</dd></div>
-                        </dl>
-                    </div>
-                    <div class="skill-group">
-                        <h3>Audio</h3>
-                        <dl class="skill-list">
-                            <div><dt>Plugin development</dt><dd>C++, JUCE, DSP</dd></div>
-                            <div><dt>DAWs and studio</dt><dd>Reaper (my main DAW), Pro Tools (learned in class), recording practice (Practicum Recording Technology)</dd></div>                            <!-- TODO: add the DAWs, gear, and instruments you actually use, e.g.
-                            <div><dt>Instruments</dt><dd>...</dd></div> -->
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="projects" class="section" aria-labelledby="projects-title">
             <div class="container">
                 <div class="section-head section-head-split">
@@ -176,7 +136,7 @@
             </div>
         </section>
 
-        <!-- Music: releases and bands render from data/music.js. Until it has a release, the "coming soon" note shows. -->
+        <!-- Music: releases and bands render from data/music.js. The "coming soon" note shows only if the release list is empty. -->
         <section id="music" class="section section-music" aria-labelledby="music-title">
             <div class="container">
                 <div class="section-head">
@@ -201,72 +161,52 @@
             </div>
         </section>
 
+        <section id="about" class="section" aria-labelledby="about-title">
+            <div class="container">
+                <div class="section-head"><h2 id="about-title" class="section-title">About</h2></div>
+                <div class="about-grid">
+                    <div class="about-story prose">
+                        <p>I’m a computer science senior at West Virginia University with a minor in music technology. I like working on both software and audio, and my favorite projects are the ones that use both.</p>
+                        <p>For software, I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL. Most of my projects have been team projects run in Agile sprints. One was a 24-hour hackathon, and for another we gave a live demo to a panel of judges. Right now I’m building a web portal with Rails and AWS for my senior capstone.</p>
+                        <p>For music, I use Reaper for my own recording and production. I learned Pro Tools and studio recording in my music tech classes. I scored my friend Owen’s game God Stomp, and I’m writing the soundtrack for his next one, Scratch Fever, which he plans to release on Steam. I also play in three bands: <a href="#bands" class="text-link">LVNARY, Bulge, and Koal</a>.</p>
+                        <p>My audio plugins combine the two. <a href="#etherius" class="text-link">Etherius</a> is a delay I wrote in C++ with JUCE, based on how analog bucket-brigade delays work, and Granulus is a granular texture processor.</p>
+                        <p>The last two summers I taught programming and robotics to middle and high school students at iD Tech at Carnegie Mellon University.</p>
+                    </div>
+                    <dl class="spec-sheet">
+                        <div><dt>Studying</dt><dd>B.S. Computer Science, minor in Music Technology, West Virginia University</dd></div>
+                        <div><dt>Graduating</dt><dd>May 2027</dd></div>
+                        <div><dt>Based in</dt><dd>Morgantown, WV</dd></div>
+                        <div><dt>Looking for</dt><dd>Software job or internship, summer 2027</dd></div>
+                    </dl>
+                </div>
+
+                <div class="skills">
+                    <div class="skill-group">
+                        <h3>Software</h3>
+                        <dl class="skill-list">
+                            <div><dt>Languages</dt><dd>Java, C++, C, TypeScript, JavaScript, Ruby, Dart, PHP, SQL, HTML/CSS</dd></div>
+                            <div><dt>Backend and data</dt><dd>Ruby on Rails, Node.js, Express, REST APIs, PostgreSQL, MySQL, Firebase, Neon, schema design</dd></div>
+                            <div><dt>Frameworks and tools</dt><dd>React, Flutter, AWS, Azure, Docker, Git/GitHub, Agile/Scrum, VS Code, Visual Studio, WSL</dd></div>
+                        </dl>
+                    </div>
+                    <div class="skill-group">
+                        <h3>Audio</h3>
+                        <dl class="skill-list">
+                            <div><dt>Plugin development</dt><dd>C++, JUCE, DSP</dd></div>
+                            <div><dt>DAWs and studio</dt><dd>Reaper (my main DAW), Pro Tools (learned in class), recording practice (Practicum Recording Technology)</dd></div>
+                            <div><dt>Instruments</dt><dd>Guitar, vocals, drums</dd></div>
+                            <!-- TODO: add the gear you use (interface, mics) and any other instruments. -->
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="resume" class="section" aria-labelledby="resume-title">
             <div class="container">
                 <div class="section-head"><h2 id="resume-title" class="section-title">Resume</h2></div>
                 <div class="resume-grid">
                     <div class="resume-summary">
-                        <section class="resume-block" aria-labelledby="resume-summary-title">
-                            <h3 id="resume-summary-title" class="resume-heading">Summary</h3>
-                            <p>Computer science senior at West Virginia University, graduating May 2027. I mostly write Java and C++, and I’ve built full-stack apps with TypeScript, Node.js, Ruby on Rails, and PostgreSQL, usually on Agile teams. Looking for a software engineering job or internship for summer 2027.</p>
-                        </section>
-
-                        <section class="resume-block" aria-labelledby="resume-skills-title">
-                            <h3 id="resume-skills-title" class="resume-heading">Skills</h3>
-                            <dl class="skill-list">
-                                <div><dt>Languages</dt><dd>Java, C++, C, TypeScript, JavaScript, Ruby, Dart, PHP, SQL, HTML/CSS</dd></div>
-                                <div><dt>Frameworks and libraries</dt><dd>Ruby on Rails, Node.js, Express, React, Flutter, JUCE</dd></div>
-                                <div><dt>Databases and cloud</dt><dd>PostgreSQL, MySQL, Firebase, Neon, AWS, Azure</dd></div>
-                                <div><dt>Tools</dt><dd>Git/GitHub, Docker, VS Code, Visual Studio, WSL</dd></div>
-                                <div><dt>Other</dt><dd>REST APIs, schema design, Agile/Scrum, audio DSP, Reaper, Pro Tools</dd></div>
-                            </dl>
-                        </section>
-
-                        <section class="resume-block" aria-labelledby="resume-projects-title">
-                            <h3 id="resume-projects-title" class="resume-heading">Projects</h3>
-                            <div class="resume-entry">
-                                <h4>WVU Cyber Sandbox Portal</h4>
-                                <p class="resume-meta">Senior capstone, 2026. Ruby on Rails, AWS</p>
-                                <ul class="bullets">
-                                    <li>Building a web portal for the WVU Cyber Sandbox with a 3-person Agile team over 5+ sprints, using Ruby on Rails (MVC) for the app and server-side logic.</li>
-                                    <li>Deploying the backend on AWS while staying within strict cloud cost limits.</li>
-                                </ul>
-                            </div>
-                            <div class="resume-entry">
-                                <h4>Byte Syzed</h4>
-                                <p class="resume-meta">Advanced Software Engineering course. TypeScript, Flutter, Dart, Node.js, PostgreSQL, Docker</p>
-                                <ul class="bullets">
-                                    <li>Built a mobile app that filters 20 to 35 local Morgantown restaurants against 10+ allergen and diet filters.</li>
-                                    <li>Wrote REST API endpoints in Node.js on a 4-table PostgreSQL database, with bitmask allergen filtering and weighted safety rankings.</li>
-                                    <li>Worked in a 6-person Agile team across 3 sprints, using Git/GitHub for version control and Docker for development and deployment.</li>
-                                </ul>
-                            </div>
-                            <div class="resume-entry">
-                                <h4>Votr</h4>
-                                <p class="resume-meta">SteelHacks hackathon, 2026. TypeScript, PostgreSQL, Neon</p>
-                                <ul class="bullets">
-                                    <li>Built a web app with a 4-person team in a 24+ hour hackathon that gives Gen Z voters unbiased voting information.</li>
-                                    <li>Set up the PostgreSQL backend on Neon serverless Postgres and wrote the TypeScript logic on top of the data layer.</li>
-                                </ul>
-                            </div>
-                            <div class="resume-entry">
-                                <h4>MapChat</h4>
-                                <p class="resume-meta">Software Engineering course. PHP, MySQL, JavaScript, Raspberry Pi</p>
-                                <ul class="bullets">
-                                    <li>Added weather features to a social media-style web app, working in the PHP backend and MySQL database.</li>
-                                    <li>Hosted the app on a Raspberry Pi and demoed it live to a panel of 3 judges.</li>
-                                </ul>
-                            </div>
-                            <div class="resume-entry">
-                                <h4>Etherius</h4>
-                                <p class="resume-meta">Independent project. C++, JUCE</p>
-                                <ul class="bullets">
-                                    <li>Built a delay audio plugin in C++ with JUCE, modeled on analog bucket-brigade delays, with modulation for vibrato.</li>
-                                    <li>Used JUCE’s audio processor and editor classes to keep the DSP code separate from the UI.</li>
-                                </ul>
-                            </div>
-                        </section>
-
                         <section class="resume-block" aria-labelledby="resume-experience-title">
                             <h3 id="resume-experience-title" class="resume-heading">Experience</h3>
                             <div class="resume-entry">
@@ -294,14 +234,14 @@
                     </div>
                     <aside class="resume-download" aria-labelledby="resume-dl-title">
                         <h3 id="resume-dl-title">Full resume</h3>
-                        <p>One page, software-focused. For audio work, see the <a href="#music" class="text-link">Music</a> section.</p>
+                        <p>One page, software-focused, with my projects and skills. For audio work, see <a href="#music" class="text-link">Music</a>.</p>
                         <!-- TODO: add a music/audio credits sheet (studio credits, gear, DAWs, instruments) and link it here for audio-industry readers. -->
                         <div class="resume-buttons">
                             <a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf" class="btn" download>
                                 <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
                                 Download PDF
                             </a>
-                            <a href="assets/resume/Jacob_Wolfe_Resume_SWE.docx" class="btn" download>
+                            <a href="assets/resume/Jacob_Wolfe_Resume_SWE.docx" class="btn btn-secondary" download>
                                 <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>
                                 Download Word (.docx)
                             </a>
@@ -371,7 +311,9 @@
         <div class="container footer-inner">
             <div class="footer-top">
                 <p class="footer-name">Jacob Wolfe</p>
-                <ul class="footer-links" id="footer-links" aria-label="Elsewhere"></ul>
+                <ul class="footer-links" id="footer-links" aria-label="Resume and profiles">
+                    <li><a href="assets/resume/Jacob_Wolfe_Resume_SWE.pdf"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Resume (PDF)</a></li>
+                </ul>
             </div>
             <div class="footer-bottom">
                 <nav class="footer-legal" aria-label="Legal">

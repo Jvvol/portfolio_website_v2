@@ -19,8 +19,8 @@ Then open http://localhost:8000. Opening `index.html` directly also works, excep
 
 | What | Where |
 | --- | --- |
-| Projects | `data/projects.js` (one object per project, in display order) |
-| Releases and bands | `data/music.js` (releases with roles/status/square artwork in `assets/img/music/`; bands with Instagram links) |
+| Projects | `data/projects.js` (one object per project, in display order; area, preview media, and case study fields are documented at the top) |
+| Releases and bands | `data/music.js` (releases with roles/status/square artwork in `assets/img/music/` and optional click-to-load Spotify/YouTube players; bands with Instagram links) |
 | Email and social/music profile links | `js/config.js` (blank values are hidden) |
 | About, Session work blurb, Resume, Contact copy | `index.html` |
 | Resume files | `assets/resume/` (keep the same filenames, or update the links in `index.html`) |
@@ -33,7 +33,7 @@ The header and footer are repeated in each HTML page so they work without JavaSc
 ## Structure
 
 ```
-index.html          Home page: hero, About, Projects, Music, Resume, Contact
+index.html          Home page: hero, Projects, Music, About, Resume, Contact
 privacy.html        Privacy Policy
 cookies.html        Cookie Policy
 terms.html          Terms of Use
@@ -54,7 +54,7 @@ Colors live only in the `:root` blocks at the top of `styles.css`: a raw palette
 
 ## Privacy and cookies
 
-The site sets no cookies, loads nothing from other companies' servers, and has no analytics. It stores two settings in local storage: `theme` and `consent.v1`. If that changes, update `privacy.html` and `cookies.html`.
+The site sets no cookies, loads nothing from other companies' servers until a visitor presses "Play here" on an embedded Spotify or YouTube player, and has no analytics. It stores two settings in local storage: `theme` and `consent.v1`. If that changes, update `privacy.html` and `cookies.html`.
 
 ### Adding an analytics or other optional script later
 

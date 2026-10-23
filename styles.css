@@ -773,7 +773,7 @@ html:not(.js) .theme-toggle { display: none; }
     background: var(--color-surface-sunken);
 }
 .preview img { width: 100%; height: 100%; object-fit: cover; }
-.preview-empty { place-items: center; padding: var(--space-3); }
+.preview-empty { place-items: center; padding: var(--space-3) var(--space-3) var(--space-5); }
 .preview-audio { align-content: end; }
 .preview .signal {
     position: absolute;
@@ -823,9 +823,16 @@ html:not(.js) .theme-toggle { display: none; }
 
 @media (max-width: 860px) {
     .project,
-    .project.is-lead { grid-template-columns: minmax(0, 1fr); }
+    .project.is-lead { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--space-3) var(--space-4); }
+    .project.is-lead .project-title { font-size: var(--step-2); }
+    .project.is-lead .project-summary { font-size: var(--step-0); }
     .projects { gap: var(--space-5); }
     .project-item { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+    .project,
+    .project.is-lead { grid-template-columns: minmax(0, 1fr); }
+    .preview-empty { aspect-ratio: 2 / 1; }
 }
 
 /* Audio player: our controls over a native <audio>. The progress line is the motif. */
@@ -892,9 +899,42 @@ html:not(.js) .theme-toggle { display: none; }
 .player-transcript summary { cursor: pointer; font-size: var(--step--1); font-weight: 500; }
 .player-transcript p { margin-top: 0.4rem; color: var(--color-text-muted); font-size: var(--step--1); }
 
+/* Case study: native disclosure under each featured project. */
+.case-study { width: 100%; margin-top: var(--space-1); border-top: 1px solid var(--color-border); }
+.case-study summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding-block: 0.5rem;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+    transition: color var(--dur-fast);
+}
+.case-study summary::-webkit-details-marker { display: none; }
+.case-study summary::after {
+    content: '';
+    flex: none;
+    width: 0.5rem; height: 0.5rem;
+    margin-right: 0.25rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform var(--dur) var(--ease);
+}
+.case-study[open] summary::after { transform: translateY(25%) rotate(-135deg); }
+.case-study summary:hover { color: var(--color-accent); }
+.case-study-body { display: grid; gap: var(--space-2); padding-bottom: var(--space-2); }
+.case-study-body dt { color: var(--color-text-muted); font-size: var(--step--1); font-weight: 500; }
+.case-study-body dd { line-height: 1.55; }
+
 /* Click-to-load embeds (Spotify, YouTube). */
 .embed { display: grid; justify-items: start; gap: 0.35rem; width: 100%; }
-.embed-note { color: var(--color-text-muted); font-size: var(--step--2); }
+.embed-note { color: var(--color-text-muted); font-size: var(--step--1); }
+.embed-note .text-link-external { min-height: 2.75rem; }
+.release .embed .btn { width: 100%; }
 .embed iframe { display: block; width: 100%; border: 0; border-radius: var(--radius); }
 .embed-spotify iframe { height: 152px; }
 
@@ -904,10 +944,8 @@ html:not(.js) .theme-toggle { display: none; }
 .releases {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 1fr;
     gap: var(--space-4) var(--space-3);
 }
-@media (min-width: 700px) { .releases { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1000px) { .releases { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .release { display: flex; flex-direction: column; min-width: 0; }
 .release-body .btn { white-space: normal; text-align: center; }
@@ -922,6 +960,8 @@ html:not(.js) .theme-toggle { display: none; }
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-text) 8%, transparent);
 }
 .release-art img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -975,12 +1015,13 @@ html:not(.js) .theme-toggle { display: none; }
 /* Low-key session work note */
 .services-note {
     max-width: 44rem;
-    padding-left: var(--space-3);
-    border-left: 2px solid var(--color-indicator);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
 }
 .section > .container > .services-note { margin-top: var(--space-5); }
 .services-note h3 { font-size: 1.0625rem; font-weight: 600; }
-.services-note p { margin-top: 0.4rem; color: var(--color-text-muted); }
+.services-note p { margin-top: 0.4rem; }
 
 .music-empty { color: var(--color-text-muted); }
 .section > .container > .music-empty + .releases { margin-top: var(--space-2); }
@@ -1101,6 +1142,8 @@ html:not(.js) .theme-toggle { display: none; }
 
 @media (max-width: 860px) {
     .contact-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+    /* On phones, one-tap email and profiles come before the form. */
+    .contact-links { order: -1; }
 }
 
 /* Footer
@@ -1140,17 +1183,19 @@ html:not(.js) .theme-toggle { display: none; }
 .footer-legal .link-btn:hover { color: var(--color-text); text-decoration-color: currentColor; }
 .footer-legal a[aria-current] { color: var(--color-text); text-decoration-color: var(--color-indicator); }
 .footer-name { color: var(--color-text); font-size: 1rem; font-weight: 600; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); }
 .footer-links a {
-    display: inline-grid;
-    place-items: center;
-    width: 2.75rem; height: 2.75rem;
-    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
     color: var(--color-text-muted);
-    transition: color var(--dur), background-color var(--dur);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--dur);
 }
-.footer-links a:hover { color: var(--color-text); background: color-mix(in srgb, var(--color-text) 6%, transparent); }
-.footer-links .icon { width: 1.25rem; height: 1.25rem; }
+.footer-links a:hover { color: var(--color-text); }
+.footer-links .icon { width: 1.1rem; height: 1.1rem; }
 
 /* Legal pages: contents list beside a single readable column
    ========================================================================== */

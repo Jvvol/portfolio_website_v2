@@ -24,7 +24,10 @@ test('music renders', async ({ page }) => {
 });
 
 test('every release shows its cover art', async ({ page }) => {
+    // Covers load lazily, so bring the Music section into view first.
+    await page.locator('#music-list').scrollIntoViewIfNeeded();
     const covers = page.locator('#music-list .release-art img');
+    for (const img of await covers.all()) await expect.poll(() => img.evaluate(n => n.complete && n.naturalWidth)).toBeGreaterThan(0);
     await expect(covers).toHaveCount(4);
     for (const img of await covers.all()) {
         expect(await img.evaluate(n => n.naturalWidth)).toBeGreaterThan(0);

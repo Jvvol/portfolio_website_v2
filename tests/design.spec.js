@@ -13,14 +13,15 @@ test('two button styles: one filled primary in the hero, every secondary alike',
         return [s.backgroundColor, s.color, s.borderColor, s.borderRadius, s.fontWeight].join(' ');
     }));
     const secondary = await look('main .btn.btn-secondary:visible');
-    expect(secondary.length).toBeGreaterThan(8);
+    expect(secondary.length).toBeGreaterThan(5);
     expect(new Set(secondary).size).toBe(1);
     expect(new Set(await look('main .btn:not(.btn-secondary):visible')).size).toBe(1);
 });
 
-test('release and project links are buttons', async ({ page }) => {
+test('release and band links are reachable: buttons, or a link beside Play here', async ({ page }) => {
     await page.goto('/index.html');
-    await expect(page.locator('#music-list a[href*="spotify"]').first()).toHaveClass(/\bbtn\b/);
+    await expect(page.locator('#music-list a[href*="itch.io"]').first()).toHaveClass(/\bbtn\b/);
+    await expect(page.locator('#music-list a[href*="spotify"]')).toHaveCount(2);
     await expect(page.locator('#band-list a[href*="instagram"]').first()).toHaveClass(/\bbtn\b/);
 });
 
@@ -47,18 +48,21 @@ test('no raw colors outside the token blocks', () => {
 });
 
 for (const width of [375, 760, 1000, 1280]) {
-    test(`release cards match at ${width}px: same size, buttons lined up, no extra notes`, async ({ page }) => {
+    test(`release cards match at ${width}px: even rows, actions lined up, no extra notes`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto('/index.html');
         await expect(page.locator('#music-list .btn').first()).toBeVisible();
         await expect(page.locator('#music-list .release-upcoming')).toHaveCount(0);
         const cards = await page.locator('#music-list > li').evaluateAll(nodes => nodes.map(n => {
-            const btns = n.querySelectorAll('.btn');
-            const btn = btns[btns.length - 1];
-            return { height: n.getBoundingClientRect().height, gap: btn ? n.getBoundingClientRect().bottom - btn.getBoundingClientRect().bottom : null };
+            const actions = n.querySelector('.release-actions');
+            const filled = actions && actions.children.length > 0;
+            return { top: Math.round(n.getBoundingClientRect().top), height: n.getBoundingClientRect().height, gap: filled ? n.getBoundingClientRect().bottom - actions.getBoundingClientRect().bottom : null };
         }));
-        expect(new Set(cards.map(c => Math.round(c.height))).size).toBe(1);
-        // The last button sits at the bottom of its card, so buttons in a row line up.
+        // Cards in the same row share a height.
+        const rows = new Map();
+        for (const c of cards) rows.set(c.top, (rows.get(c.top) || new Set()).add(Math.round(c.height)));
+        for (const heights of rows.values()) expect(heights.size).toBe(1);
+        // Actions sit at the bottom of each card, so they line up across a row.
         for (const c of cards) if (c.gap !== null) expect(Math.round(c.gap)).toBe(0);
     });
 }

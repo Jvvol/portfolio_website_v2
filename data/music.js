@@ -34,7 +34,7 @@ window.MUSIC = [
         artist: 'Game by Owen',
         roles: ['Composing', 'Producing'],
         status: 'In progress',
-        artwork: { src: 'assets/img/music/scratch-fever.png', alt: 'Scratch Fever capsule art: a red-lit cartoon skull with its jaw open' },
+        artwork: { src: 'assets/img/music/scratch-fever.jpg', alt: 'Scratch Fever capsule art: a red-lit cartoon skull with its jaw open' },
         // TODO: a short soundtrack excerpt would let visitors hear this one before release
         // (self-hosted, or a YouTube upload as embed: { provider: 'youtube', id }).
         // On release: set status to 'Out now' and replace null with the store link:

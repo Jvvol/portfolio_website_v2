@@ -67,11 +67,9 @@
             const isEmail = p.key === 'email';
             const a = el('a', {
                 href: isEmail ? `mailto:${links.email}` : links[p.key],
-                'aria-label': p.label,
-                title: p.label,
                 target: isEmail ? null : '_blank',
                 rel: isEmail ? null : 'noopener noreferrer'
-            }, icon(p.icon));
+            }, icon(p.icon), p.label, !isEmail && el('span', { class: 'sr-only' }, ' (opens in a new tab)'));
             footerLinks.append(el('li', null, a));
         });
     }
@@ -178,13 +176,15 @@
 
     const PROVIDER_NAMES = { spotify: 'Spotify', youtube: 'YouTube' };
 
-    function embedLoader(embed, title) {
+    // `link` (optional) is the release's own page, offered beside the note so the card needs one button.
+    function embedLoader(embed, title, link) {
         const src = embedSrc(embed);
         if (!src) return null;
         const provider = PROVIDER_NAMES[embed.provider];
         const button = el('button', { type: 'button', class: 'btn btn-secondary embed-load' },
             icon('play'), el('span', null, 'Play here'));
-        const note = el('p', { class: 'embed-note' }, `Loads the ${provider} player`);
+        const note = el('p', { class: 'embed-note' }, `Loads from ${provider}.`,
+            link && link.url && ' ', link && link.url && externalLink(link.url, link.label || `Open in ${provider}`, 'text-link-external'));
         const slot = el('div', { class: `embed embed-${embed.provider}` }, button, note);
         button.addEventListener('click', () => {
             const frame = el('iframe', {
@@ -262,9 +262,34 @@
         return s;
     }
 
+    function bulletList(items) {
+        const list = (items || []).filter(Boolean);
+        return list.length > 0 && el('ul', { class: 'bullets' }, list.map(h => el('li', null, h)));
+    }
+
+    // Case study: the parts that exist, in a fixed order, behind a native disclosure.
+    const CASE_PARTS = [
+        ['problem', 'Problem'],
+        ['role', 'My role'],
+        ['approach', 'Approach'],
+        ['challenges', 'Challenges'],
+        ['results', 'Results']
+    ];
+
+    function caseStudy(p) {
+        const study = p.caseStudy || {};
+        const parts = CASE_PARTS.filter(([key]) => study[key]);
+        if (parts.length === 0) return null;
+        return el('details', { class: 'case-study' },
+            el('summary', null, el('span', null, 'How it was built')),
+            el('dl', { class: 'case-study-body' },
+                parts.map(([key, label]) => el('div', null, el('dt', null, label), el('dd', null, study[key])))
+            )
+        );
+    }
+
     function projectRow(p, index) {
         const meta = [p.context, p.year].filter(Boolean).join(', ');
-        const highlights = (p.highlights || []).filter(Boolean);
         const projectLinks = (p.links || []).filter(l => l && l.href);
 
         return el('article', { class: index === 0 ? 'project is-lead' : 'project', id: slug(p.title), 'data-area': areaOf(p) },
@@ -274,9 +299,10 @@
                 el('h3', { class: 'project-title' }, p.title),
                 meta && el('p', { class: 'project-meta' }, meta),
                 el('p', { class: 'project-summary' }, p.summary),
-                highlights.length > 0 && el('ul', { class: 'bullets' }, highlights.map(h => el('li', null, h))),
+                bulletList(p.highlights),
                 tagList(p.tags),
-                linkList(projectLinks)
+                linkList(projectLinks),
+                caseStudy(p)
             )
         );
     }
@@ -292,6 +318,7 @@
             ),
             el('div', { class: 'project-item-body' },
                 el('p', null, p.summary),
+                bulletList(p.highlights),
                 tagList(p.tags),
                 linkList(projectLinks, 'text-link-external')
             )
@@ -346,18 +373,23 @@
         return el('ul', { class: 'roles', 'aria-label': label }, (roles || []).map(r => el('li', { class: 'role' }, r)));
     }
 
-    // Square cover art slot: a placeholder square until the image file loads.
+    // Square cover art slot: the placeholder square sits underneath until the image loads.
+    // Images load lazily, since the Music section starts well below the fold.
     function artwork(t) {
         const frame = el('div', { class: 'art-placeholder', 'aria-hidden': 'true' }, icon('note'));
         const figure = el('figure', { class: 'release-art' }, frame, t.status && badge(t.status));
         if (t.artwork && t.artwork.src) {
-            const img = new Image();
-            if (t.artwork.pixelated) img.className = 'is-pixelated';
-            img.onload = () => {
-                img.alt = t.artwork.alt || `${t.title} cover art`;
-                frame.replaceWith(img);
-            };
-            img.src = t.artwork.src;
+            const img = el('img', {
+                src: t.artwork.src,
+                alt: t.artwork.alt || `${t.title} cover art`,
+                class: t.artwork.pixelated ? 'is-pixelated' : null,
+                width: 640, height: 640,
+                loading: 'lazy',
+                decoding: 'async'
+            });
+            img.addEventListener('load', () => frame.remove());
+            img.addEventListener('error', () => img.remove());
+            frame.after(img);
         }
         return figure;
     }
@@ -372,8 +404,9 @@
                 el('p', { class: 'release-meta' }, t.artist, t.artist && kind && el('br'), kind),
                 roleList(t.roles, 'My role'),
                 el('div', { class: 'release-actions' },
-                    t.embed && embedLoader(t.embed, `${t.title} by ${t.artist}`),
-                    hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
+                    t.embed
+                        ? embedLoader(t.embed, `${t.title} by ${t.artist}`, t.link)
+                        : hasLink && linkList([{ href: t.link.url, label: t.link.label || 'Listen' }])
                 )
             )
         );

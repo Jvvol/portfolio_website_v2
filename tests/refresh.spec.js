@@ -55,3 +55,17 @@ test('nothing autoplays: no audio or iframes on load', async ({ page }) => {
     const playing = await page.locator('audio').evaluateAll(nodes => nodes.filter(a => !a.paused).length);
     expect(playing).toBe(0);
 });
+
+test('featured projects open a case study with only the parts that exist', async ({ page }) => {
+    const study = page.locator('#etherius .case-study');
+    await expect(study).toHaveCount(1);
+    await expect(study.locator('.case-study-body')).toBeHidden();
+    await study.locator('summary').click();
+    await expect(study.locator('dt')).toHaveText(['My role', 'Approach']);
+    // A project with no write-up yet shows no empty disclosure.
+    await expect(page.locator('#granulus .case-study')).toHaveCount(0);
+});
+
+test('no availability line repeated in the bio', async ({ page }) => {
+    await expect(page.locator('#about .about-story')).not.toContainText('summer 2027');
+});

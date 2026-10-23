@@ -26,7 +26,7 @@ for (const path of LEGAL) {
     test(`${path} nav points back to the home page sections`, async ({ page }) => {
         await page.goto(path);
         const hrefs = await page.locator('.nav-links a').evaluateAll(as => as.map(a => a.getAttribute('href')));
-        expect(hrefs).toEqual(['index.html#about', 'index.html#projects', 'index.html#music', 'index.html#resume', 'index.html#contact']);
+        expect(hrefs).toEqual(['index.html#projects', 'index.html#music', 'index.html#about', 'index.html#resume', 'index.html#contact']);
     });
 }
 
