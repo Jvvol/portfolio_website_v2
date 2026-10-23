@@ -109,10 +109,13 @@
     /* Shadows only on things that float (menu, dialog, banner). */
     --shadow-2: 0 12px 24px -12px color-mix(in srgb, var(--color-shadow) 25%, transparent);
 
-    --dur-fast: 0.15s;
-    --dur: 0.2s;
-    --dur-slow: 0.6s;
-    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    /* Motion: short, ease-out, transform and opacity. Exits are faster than entrances. */
+    --dur-press: 120ms;    /* press feedback */
+    --dur-fast: 150ms;     /* hover, color, exits */
+    --dur: 200ms;          /* state changes: menu, disclosure, filter */
+    --dur-slow: 420ms;     /* the hero's one entrance */
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);          /* strong ease-out */
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);  /* things moving on screen */
 
     --z-header: 100;
     --z-overlay: 300;
@@ -281,10 +284,10 @@ main:focus { outline: none; }
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast) var(--ease);
+    transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-press) var(--ease);
 }
 .btn:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
-.btn:active { transform: translateY(1px); }
+.btn:active { transform: scale(0.97); }
 .btn .icon { width: 1em; height: 1em; }
 
 /* Secondary: same shape, outline only. One filled button per view. */
@@ -400,7 +403,7 @@ html:not(.js) .theme-toggle { display: none; }
     height: 2px;
     background: currentColor;
     border-radius: 1px;
-    transition: transform 0.25s var(--ease), opacity var(--dur);
+    transition: transform var(--dur) var(--ease-in-out), opacity var(--dur-fast);
 }
 .menu-toggle[aria-expanded="true"] .menu-bars span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .menu-toggle[aria-expanded="true"] .menu-bars span:nth-child(2) { opacity: 0; }
@@ -426,7 +429,7 @@ html:not(.js) .theme-toggle { display: none; }
         visibility: hidden;
         opacity: 0;
         transform: translateY(-0.5rem);
-        transition: opacity var(--dur), transform var(--dur) var(--ease), visibility 0s var(--dur);
+        transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease), visibility 0s var(--dur-fast);
     }
     .js .nav-links.is-open {
         visibility: visible;
@@ -434,6 +437,7 @@ html:not(.js) .theme-toggle { display: none; }
         transform: none;
         transition: opacity var(--dur), transform var(--dur) var(--ease);
     }
+    .js .nav-links { transform-origin: top center; }
     .js .nav-links a { padding: 0.85rem 0.25rem; font-size: 1.05rem; }
     .js .nav-links li + li { border-top: 1px solid var(--color-border); }
 }
@@ -512,21 +516,49 @@ html:not(.js) .theme-toggle { display: none; }
     background: var(--color-surface-sunken);
 }
 
-/* The one orchestrated moment: supporting lines settle in once on load.
-   The headline never waits on an animation. */
+/* The one orchestrated moment. The name is there from the first frame; the lines
+   under it settle in on a short, even count, and then the status light switches on,
+   like a unit powering up. Nothing waits on it: links work throughout. */
+.status-light { position: relative; }
+.status-light::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1px solid var(--color-indicator-edge);
+    opacity: 0;
+    pointer-events: none;
+}
 @media (prefers-reduced-motion: no-preference) {
+    .hero-roles,
     .hero-text > :not(.hero-title),
     .hero-portrait {
-        animation: settle 0.5s var(--ease) both;
+        animation: settle var(--dur-slow) var(--ease) both;
     }
-    .hero-text > :nth-child(2) { animation-delay: 60ms; }
-    .hero-text > :nth-child(3) { animation-delay: 120ms; }
-    .hero-text > :nth-child(4) { animation-delay: 180ms; }
-    .hero-portrait { animation-delay: 60ms; }
+    .hero-roles { animation-delay: 40ms; }
+    .hero-text > :nth-child(2) { animation-delay: 100ms; }
+    .hero-text > :nth-child(3) { animation-delay: 160ms; }
+    .hero-text > :nth-child(4) { animation-delay: 220ms; }
+    .hero-portrait { animation-delay: 100ms; }
+    .status-light { animation: power-on 240ms var(--ease) 480ms both; }
+    .status-light::after { animation: ring 700ms var(--ease) 560ms both; }
     @keyframes settle {
         from { opacity: 0; transform: translateY(8px); }
     }
+    @keyframes power-on {
+        from { opacity: 0.25; transform: scale(0.6); }
+    }
+    @keyframes ring {
+        from { opacity: 0.9; transform: scale(0.4); }
+        to { opacity: 0; transform: scale(1.6); }
+    }
 }
+@media (prefers-reduced-motion: reduce) {
+    /* Same order of arrival, without the travel. */
+    .hero-text > :not(.hero-title),
+    .hero-portrait { animation: fade var(--dur) ease both; }
+}
+@keyframes fade { from { opacity: 0; } }
 
 @media (max-width: 860px) {
     .hero-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
@@ -722,7 +754,7 @@ html:not(.js) .theme-toggle { display: none; }
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+    transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-press) var(--ease);
 }
 .filter.is-lit::before {
     content: '';
@@ -732,7 +764,7 @@ html:not(.js) .theme-toggle { display: none; }
     box-shadow: 0 0 0 1px var(--color-indicator-edge);
 }
 .filter:hover { border-color: var(--color-text); }
-.filter:active { transform: translateY(1px); }
+.filter:active { transform: scale(0.97); }
 .filter[aria-pressed="true"] { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg); }
 .filter-count { font-family: var(--font-mono); font-size: var(--step--2); opacity: 0.75; }
 
@@ -784,6 +816,13 @@ html:not(.js) .theme-toggle { display: none; }
 .preview img { width: 100%; height: 100%; object-fit: cover; }
 .preview-empty { place-items: center; padding: var(--space-3) var(--space-3) var(--space-5); }
 .preview-audio { align-content: end; }
+/* Played portion of the waveform, drawn over the unplayed one and revealed by progress. */
+.preview .signal-played {
+    color: var(--color-indicator-text);
+    clip-path: inset(0 calc(100% - var(--progress, 0) * 100%) 0 0);
+    transition: clip-path 250ms linear;
+}
+.preview-audio .signal:not(.signal-played) { color: var(--color-border-strong); }
 .preview .signal {
     position: absolute;
     top: 14%;
@@ -811,6 +850,13 @@ html:not(.js) .theme-toggle { display: none; }
 .preview-video { place-items: center; }
 .preview-video .embed.is-loaded { position: absolute; inset: 0; }
 .preview-video iframe { width: 100%; height: 100%; border: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+    [data-area].is-entering { animation: settle var(--dur) var(--ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-area].is-entering { animation: fade var(--dur-fast) ease both; }
+}
 
 .projects-empty { display: grid; justify-items: start; gap: var(--space-2); color: var(--color-text-muted); }
 
@@ -864,12 +910,14 @@ html:not(.js) .theme-toggle { display: none; }
     background: var(--color-accent);
     color: var(--color-on-accent);
     cursor: pointer;
-    transition: background-color var(--dur-fast), transform var(--dur-fast) var(--ease);
+    transition: background-color var(--dur-fast), transform var(--dur-press) var(--ease);
 }
 .player-toggle:hover { background: var(--color-accent-hover); }
-.player-toggle:active { transform: scale(0.96); }
+.player-toggle:active { transform: scale(0.94); }
 .player-toggle .icon { width: 1.1rem; height: 1.1rem; }
-.player-toggle .is-hidden { display: none; }
+.player-toggle { position: relative; }
+.player-toggle .icon { grid-area: 1 / 1; transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease); }
+.player-toggle .is-hidden { opacity: 0; transform: scale(0.6); }
 .player-main { display: grid; gap: 0.2rem; min-width: 0; }
 .player-title { font-size: var(--step--1); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-track { display: flex; align-items: center; gap: 0.75rem; }
@@ -931,11 +979,18 @@ html:not(.js) .theme-toggle { display: none; }
     border-right: 1.5px solid currentColor;
     border-bottom: 1.5px solid currentColor;
     transform: translateY(-25%) rotate(45deg);
-    transition: transform var(--dur) var(--ease);
+    transition: transform var(--dur) var(--ease-in-out);
 }
 .case-study[open] summary::after { transform: translateY(25%) rotate(-135deg); }
 .case-study summary:hover { color: var(--color-accent); }
 .case-study-body { display: grid; gap: var(--space-2); padding-bottom: var(--space-2); }
+@media (prefers-reduced-motion: no-preference) {
+    .case-study[open] .case-study-body { animation: drop-in var(--dur) var(--ease) both; }
+    @keyframes drop-in { from { opacity: 0; transform: translateY(-4px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+    .case-study[open] .case-study-body { animation: fade var(--dur) ease both; }
+}
 .case-study-body dt { color: var(--color-text-muted); font-size: var(--step--1); font-weight: 500; }
 .case-study-body dd { line-height: 1.55; }
 
@@ -977,7 +1032,9 @@ html:not(.js) .theme-toggle { display: none; }
     transition: transform var(--dur-slow) var(--ease);
 }
 .release-art img.is-pixelated { image-rendering: pixelated; }
-.release:hover .release-art img { transform: scale(1.03); }
+@media (hover: hover) and (pointer: fine) {
+    .release:hover .release-art img { transform: scale(1.03); }
+}
 .release-art .badge { position: absolute; top: 0.6rem; left: 0.6rem; }
 .art-placeholder {
     display: grid;
@@ -1144,7 +1201,9 @@ html:not(.js) .theme-toggle { display: none; }
     text-decoration: none;
 }
 .contact-link .icon { width: 1.35rem; height: 1.35rem; color: var(--color-accent); transition: transform var(--dur-fast) var(--ease); }
-.contact-link:hover .icon { transform: scale(1.1); }
+@media (hover: hover) and (pointer: fine) {
+    .contact-link:hover .icon { transform: scale(1.1); }
+}
 .contact-link:hover .contact-value { color: var(--color-accent); }
 .contact-label { display: block; color: var(--color-text-muted); font-size: var(--step--1); }
 .contact-value { display: block; font-weight: 500; overflow-wrap: anywhere; transition: color var(--dur-fast); }
@@ -1362,11 +1421,19 @@ html:not(.js) .theme-toggle { display: none; }
 .switch:checked::before { background: var(--color-on-accent); transform: translate(1.2rem, -50%); }
 .switch:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Motion off: keep everything static and instant. */
+/* Reduced motion: keep color and opacity changes (they explain state), drop travel. */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-    }
+    .btn:active,
+    .filter:active,
+    .player-toggle:active { transform: none; }
+    .js .nav-links,
+    .js .nav-links.is-open { transform: none; }
+    .menu-bars span { transition: opacity var(--dur-fast); }
+    .release-art img,
+    .contact-link .icon { transition: none; }
+    .player-toggle .icon,
+    .player-toggle .is-hidden { transform: none; }
+    .preview .signal-played { transition: none; }
+    .case-study summary::after { transition: none; }
+    .switch::before { transition: background-color var(--dur); }
 }

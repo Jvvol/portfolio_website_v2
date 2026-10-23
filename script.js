@@ -133,7 +133,8 @@
             playIcon.classList.toggle('is-hidden', playing);
             pauseIcon.classList.toggle('is-hidden', !playing);
             toggle.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${clip.title}`);
-            root.style.setProperty('--progress', progress);
+            // On the preview, so the drawn waveform fills along with the seek bar.
+            (root.closest('.preview') || root).style.setProperty('--progress', progress);
             if (document.activeElement !== seek) seek.value = progress * 100;
             const text = `${formatTime(audio.currentTime)} / ${formatTime(duration)}`;
             time.textContent = text;
@@ -230,7 +231,10 @@
                 el('img', { src: m.src, alt: m.alt || '', loading: 'lazy', decoding: 'async', width: 800, height: 500 }));
         }
         if (m && m.type === 'audio' && m.src) {
-            return el('div', { class: 'preview preview-audio' }, signalLine(p.title), audioPlayer({ title: m.title || `${p.title} demo`, src: m.src, transcript: m.transcript }));
+            const played = signalLine(p.title);
+            played.classList.add('signal-played');
+            return el('div', { class: 'preview preview-audio' }, signalLine(p.title), played,
+                audioPlayer({ title: m.title || `${p.title} demo`, src: m.src, transcript: m.transcript }));
         }
         if (m && m.type === 'youtube' && m.id) {
             return el('div', { class: 'preview preview-video' }, embedLoader({ provider: 'youtube', id: m.id }, m.title || p.title));
@@ -360,6 +364,12 @@
             let shown = 0;
             document.querySelectorAll('#projects [data-area]').forEach(node => {
                 const match = key === 'all' || node.dataset.area === key;
+                // Items coming back fade in on a short stagger; items leaving go at once.
+                if (match && node.hidden) {
+                    node.style.setProperty('--i', Math.min(shown, 6));
+                    node.classList.add('is-entering');
+                    node.addEventListener('animationend', () => node.classList.remove('is-entering'), { once: true });
+                }
                 node.hidden = !match;
                 if (match) shown++;
             });
